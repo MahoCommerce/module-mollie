@@ -90,6 +90,70 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>100</sort_order>
             </mollie>
+            <mollie_ideal>
+                <active>0</active>
+                <model>maho_mollie/method_ideal</model>
+                <title>iDEAL</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>101</sort_order>
+            </mollie_ideal>
+            <mollie_bancontact>
+                <active>0</active>
+                <model>maho_mollie/method_bancontact</model>
+                <title>Bancontact</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>102</sort_order>
+            </mollie_bancontact>
+            <mollie_creditcard>
+                <active>0</active>
+                <model>maho_mollie/method_creditcard</model>
+                <title>Credit Card</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>103</sort_order>
+            </mollie_creditcard>
+            <mollie_paypal>
+                <active>0</active>
+                <model>maho_mollie/method_paypal</model>
+                <title>PayPal</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>104</sort_order>
+            </mollie_paypal>
+            <mollie_klarnapaylater>
+                <active>0</active>
+                <model>maho_mollie/method_klarnapaylater</model>
+                <title>Klarna - Pay later</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>105</sort_order>
+            </mollie_klarnapaylater>
+            <mollie_klarnapaynow>
+                <active>0</active>
+                <model>maho_mollie/method_klarnapaynow</model>
+                <title>Klarna - Pay now</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>106</sort_order>
+            </mollie_klarnapaynow>
+            <mollie_klarnasliceit>
+                <active>0</active>
+                <model>maho_mollie/method_klarnasliceit</model>
+                <title>Klarna - Slice it</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>107</sort_order>
+            </mollie_klarnasliceit>
+            <mollie_applepay>
+                <active>0</active>
+                <model>maho_mollie/method_applepay</model>
+                <title>Apple Pay</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>108</sort_order>
+            </mollie_applepay>
         </payment>
     </default>
 </config>

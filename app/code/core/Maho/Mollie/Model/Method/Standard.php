@@ -83,11 +83,19 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
             ];
 
             // Optional: a specific Mollie method code chosen at checkout (iDEAL, etc.)
+            // Priority: explicit `mollie_method_code` on payment, else per-subclass default.
+            $selectedMethod = '';
             if ($orderPayment instanceof Mage_Sales_Model_Order_Payment) {
                 $selectedMethod = (string) $orderPayment->getAdditionalInformation('mollie_method_code');
-                if ($selectedMethod !== '') {
-                    $payload['method'] = $selectedMethod;
+            }
+            if ($selectedMethod === '') {
+                $fallback = $this->getMollieMethodCode();
+                if ($fallback !== null && $fallback !== '') {
+                    $selectedMethod = $fallback;
                 }
+            }
+            if ($selectedMethod !== '') {
+                $payload['method'] = $selectedMethod;
             }
 
             $molliePayment = $client->payments->create($payload);
@@ -258,5 +266,15 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     {
         /** @var Maho_Mollie_Helper_Data */
         return Mage::helper('maho_mollie');
+    }
+
+    /**
+     * Per-method subclasses override this to pin the Mollie API "method" code
+     * (e.g. 'ideal', 'bancontact'). Returning null keeps the generic gateway
+     * behaviour where Mollie shows its full selector.
+     */
+    protected function getMollieMethodCode(): ?string
+    {
+        return null;
     }
 }
