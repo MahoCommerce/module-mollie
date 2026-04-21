@@ -10,8 +10,7 @@
 
 declare(strict_types=1);
 
-class Maho_Mollie_Block_Adminhtml_System_Config_CredentialsChecker
-    extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Maho_Mollie_Block_Adminhtml_System_Config_CredentialsChecker extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     /**
      * Strip the scope controls — this field never stores a value.

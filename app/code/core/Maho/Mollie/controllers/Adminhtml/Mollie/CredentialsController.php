@@ -76,7 +76,7 @@ class Maho_Mollie_Adminhtml_Mollie_CredentialsController extends Mage_Adminhtml_
             $client = new \Mollie\Api\MollieApiClient();
             $client->setApiKey($apiKey);
             // Light ping: fetches the list of methods enabled on the Mollie account.
-            $methods = $client->methods->allActive();
+            $methods = $client->methods->allEnabled();
             $count = is_countable($methods) ? count($methods) : 0;
 
             $this->getResponse()->setBodyJson([
