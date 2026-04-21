@@ -8,7 +8,7 @@
 
 Accept payments through [Mollie](https://www.mollie.com), one of Europe's leading payment service providers — offering 40+ payment methods across the Payments API and the Orders API (for Klarna and other Buy Now Pay Later methods).
 
-> **Status: Work in progress.** The module skeleton is in place but the payment flow is not yet implemented. See the `TODO` markers in the source — logic is being ported from the official [Mollie Magento 2 module](https://github.com/mollie/magento2).
+> **Status: Beta.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, including online refunds, admin-configurable order statuses, and a configurable payment fee. 8 payment methods ship out of the box. End-to-end checkout has not yet been verified against a live Mollie sandbox — expect rough edges. The Orders API (required for full Klarna line-item detail) and Apple Pay express checkout are not yet implemented.
 
 ## Requirements
 
@@ -42,32 +42,56 @@ Navigate to **System > Configuration > Payment Methods** in the Maho admin panel
 
 Find your API keys in the [Mollie dashboard](https://my.mollie.com/dashboard/) under **Developers**.
 
+### Order statuses (Mollie - Order Statuses)
+
+Configurable codes applied when Mollie reports pending / paid, with optional per-method overrides on each method group.
+
+### Payment fee (Mollie - Payment Fee)
+
+Optional surcharge added to the order grand total when the customer picks a fee-enabled Mollie method. Supports fixed, percent, or combined fees, with per-method opt-in.
+
+### Method-specific groups
+
+Each of the 8 bundled methods (iDEAL, Bancontact, Credit Card, PayPal, Klarna Pay Later / Pay Now / Slice It, Apple Pay) has its own admin group with the usual active / title / country / sort-order controls plus optional status and fee overrides.
+
 ## Roadmap
 
 ### API layer
-- [ ] Payments API integration (iDEAL, Bancontact, SOFORT, Giropay, EPS, KBC, Belfius, Przelewy24, PayPal, SEPA, Credit Card, etc.)
-- [ ] Orders API integration (Klarna Pay Now/Pay Later/Slice It, in3, Billie, Alma, Riverty)
-- [ ] Apple Pay (domain association + JS button)
+- [x] Payments API integration (create, webhook, return, cron reconciliation, refunds)
+- [ ] Orders API integration (Klarna line items, in3, Billie, Alma, Riverty, Voucher categorisation)
+- [ ] Apple Pay express checkout (domain association + JS button)
 - [ ] Google Pay
 
-### Payment methods (initial set)
-- [ ] iDEAL
-- [ ] Credit card
-- [ ] Bancontact
-- [ ] PayPal
+### Payment methods
+- [x] iDEAL
+- [x] Credit card (redirect; components / hosted fields not yet)
+- [x] Bancontact
+- [x] PayPal
+- [x] Klarna Pay Later (Payments API — Orders API pending for line items)
+- [x] Klarna Pay Now (Payments API — Orders API pending)
+- [x] Klarna Slice It (Payments API — Orders API pending)
+- [x] Apple Pay (redirect — express button pending)
 - [ ] SOFORT Banking
 - [ ] SEPA Direct Debit
-- [ ] Klarna Pay Later (Orders API)
-- [ ] Apple Pay
 - [ ] Google Pay
 - [ ] Przelewy24
+- [ ] KBC / Belfius / EPS / Giftcard / Bank transfer / Voucher / Trustly / ... (long tail)
 
 ### Features
-- [ ] Full + partial refunds from admin
-- [ ] Webhook-driven payment status reconciliation
-- [ ] Cron-based safety net for missed webhooks
-- [ ] Multi-store API key scoping
-- [ ] Multi-currency support
+- [x] Full + partial refunds from admin (online refunds via Mollie API)
+- [x] Webhook-driven payment status reconciliation
+- [x] Cron-based safety net for missed webhooks
+- [x] Admin-configurable pending / processing order statuses (global + per-method override)
+- [x] Payment fee (fixed / percent / combined, per-method opt-in)
+- [x] External-refund and chargeback reconciliation (creditmemo from Mollie dashboard refunds; chargeback order comments)
+- [x] Multi-store API key scoping
+- [ ] Multi-currency support (code paths present but not verified end-to-end)
+- [ ] Second-chance payment email
+- [ ] Vault / stored cards
+- [ ] Mollie Components (hosted card fields)
+- [ ] Payment-link generation from admin
+- [ ] Shipment push to Mollie (Orders API)
+- [ ] Tax on the payment fee (fee_tax_class is stored but not yet applied by a tax collector)
 
 ## Acknowledgements
 
