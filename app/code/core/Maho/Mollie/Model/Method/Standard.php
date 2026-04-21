@@ -61,15 +61,59 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
      */
     public function createPayment(Mage_Sales_Model_Order $order): array
     {
-        // TODO: port from M2 Service/Mollie/Payments.php — call $client->payments->create()
-        // with amount, currency, description, redirectUrl (mollie/payment/return),
-        // webhookUrl (mollie/webhook/index), metadata (order_increment_id), locale, method.
-        // Persist the returned $payment->id to payment additional_information as 'mollie_payment_id'.
+        $helper = $this->_getMollieHelper();
+        $orderPayment = $order->getPayment();
+        $storeId = (int) $order->getStoreId();
 
-        Mage::throwException($this->_getMollieHelper()->__(
-            'Mollie payment creation is not yet implemented (order #%s).',
-            $order->getIncrementId(),
-        ));
+        try {
+            $client = $helper->getApiClient($storeId);
+
+            $payload = [
+                'amount' => [
+                    'currency' => (string) $order->getOrderCurrencyCode(),
+                    'value'    => $helper->formatAmount((float) $order->getGrandTotal()),
+                ],
+                'description' => 'Order #' . $order->getIncrementId(),
+                'redirectUrl' => $helper->getReturnUrl($storeId),
+                'webhookUrl'  => $helper->getWebhookUrl($storeId),
+                'metadata'    => [
+                    'order_id' => $order->getIncrementId(),
+                ],
+                'locale' => $helper->getLocale($storeId),
+            ];
+
+            // Optional: a specific Mollie method code chosen at checkout (iDEAL, etc.)
+            if ($orderPayment instanceof Mage_Sales_Model_Order_Payment) {
+                $selectedMethod = (string) $orderPayment->getAdditionalInformation('mollie_method_code');
+                if ($selectedMethod !== '') {
+                    $payload['method'] = $selectedMethod;
+                }
+            }
+
+            $molliePayment = $client->payments->create($payload);
+
+            $checkoutUrl = $molliePayment->getCheckoutUrl();
+            if ($checkoutUrl === null || $checkoutUrl === '') {
+                Mage::throwException($helper->__('Mollie did not return a checkout URL.'));
+            }
+
+            if ($orderPayment instanceof Mage_Sales_Model_Order_Payment) {
+                $orderPayment->setAdditionalInformation('mollie_payment_id', (string) $molliePayment->id);
+                $orderPayment->setAdditionalInformation('checkout_url', $checkoutUrl);
+                $orderPayment->save();
+            }
+
+            return [
+                'paymentId'   => (string) $molliePayment->id,
+                'redirectUrl' => $checkoutUrl,
+            ];
+        } catch (\Throwable $e) {
+            Mage::logException($e);
+            Mage::throwException($helper->__(
+                'Unable to start Mollie payment for order #%s. Please try again.',
+                $order->getIncrementId(),
+            ));
+        }
     }
 
     /**
@@ -87,15 +131,106 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     }
 
     /**
+     * Issue an online refund against the Mollie payment.
+     *
+     * Called automatically by Mage_Sales_Model_Order_Payment::refund() when the
+     * creditmemo is saved from admin with "Refund" (doTransaction=true). If the
+     * Mollie API call fails we throw, which rolls back the creditmemo save.
+     *
+     * TODO(agent-3): when giftcard method is added, skip online refund for it —
+     * Mollie handles giftcards server-side.
+     *
      * @param Mage_Sales_Model_Order_Payment $payment
      */
     #[\Override]
     public function refund(\Maho\DataObject $payment, $amount): self
     {
-        // TODO: port from M2 Service/Mollie/Refund.php — load the Mollie Payment by id
-        // and call $payment->refund(['amount' => ...]).
+        /** @var Maho_Mollie_Helper_Data $helper */
+        $helper = Mage::helper('maho_mollie');
 
-        Mage::throwException($this->_getMollieHelper()->__('Mollie refund is not yet implemented.'));
+        $molliePaymentId = (string) $payment->getAdditionalInformation('mollie_payment_id');
+        if ($molliePaymentId === '') {
+            Mage::throwException($helper->__(
+                'Cannot refund via Mollie: no Mollie payment ID stored on this order. '
+                . 'The original payment may never have completed. Use an offline credit memo instead.',
+            ));
+        }
+
+        $order = $payment->getOrder();
+        $storeId = (int) $order->getStoreId();
+        $currencyCode = (string) $order->getOrderCurrencyCode();
+        $incrementId = (string) $order->getIncrementId();
+
+        try {
+            $client = $helper->getApiClient($storeId);
+            $molliePayment = $client->payments->get($molliePaymentId);
+
+            $payload = [
+                'amount' => [
+                    'currency' => $currencyCode,
+                    'value'    => $helper->formatAmount((float) $amount),
+                ],
+                'description' => 'Refund for order #' . $incrementId,
+            ];
+
+            $refund = $molliePayment->refund($payload);
+
+            $refundId = (string) $refund->id;
+
+            // Persist refund id list so we can recognise our own refunds when
+            // Mollie sends the refund webhook back.
+            $stored = $payment->getAdditionalInformation('mollie_refund_ids');
+            $refundIds = [];
+            if (is_string($stored) && $stored !== '') {
+                /** @var Mage_Core_Helper_Data $coreHelper */
+                $coreHelper = Mage::helper('core');
+                try {
+                    $decoded = $coreHelper->jsonDecode($stored);
+                    if (is_array($decoded)) {
+                        $refundIds = array_values(array_filter(
+                            $decoded,
+                            static fn($v): bool => is_string($v) && $v !== '',
+                        ));
+                    }
+                } catch (\Throwable) {
+                    $refundIds = [];
+                }
+            } elseif (is_array($stored)) {
+                $refundIds = array_values(array_filter(
+                    $stored,
+                    static fn($v): bool => is_string($v) && $v !== '',
+                ));
+            }
+
+            if (!in_array($refundId, $refundIds, true)) {
+                $refundIds[] = $refundId;
+            }
+
+            /** @var Mage_Core_Helper_Data $coreHelper */
+            $coreHelper = Mage::helper('core');
+            $payment->setAdditionalInformation('mollie_refund_ids', $coreHelper->jsonEncode($refundIds));
+            $payment->setAdditionalInformation('last_mollie_refund_id', $refundId);
+
+            // Make the refund id visible on the transaction + credit memo.
+            $payment->setTransactionId($refundId);
+            $payment->setIsTransactionClosed(true);
+
+            Mage::log(
+                "Mollie refund: created refund {$refundId} for order #{$incrementId} "
+                . "amount={$payload['amount']['value']} {$currencyCode}",
+                Mage::LOG_INFO,
+                'mollie.log',
+            );
+        } catch (\Throwable $e) {
+            Mage::logException($e);
+            Mage::throwException($helper->__(
+                'Mollie refund failed for order #%s: %s',
+                $incrementId,
+                $e->getMessage(),
+            ));
+        }
+
+        return $this;
     }
 
     #[\Override]

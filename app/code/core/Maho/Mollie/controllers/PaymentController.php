@@ -69,14 +69,70 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
         $session = Mage::getSingleton('checkout/session');
         $session->setQuoteId($session->getMollieQuoteId(true));
 
-        // TODO: port from M2 Controller/Checkout/Process.php — fetch the Mollie Payment,
-        // branch on status: 'paid' -> success page; 'open'/'pending' -> success page
-        // (webhook will finalize); 'canceled'/'expired'/'failed' -> cart with error.
-
-        $quote = $session->getQuote();
-        if ($quote->getId()) {
-            $quote->setIsActive(0)->save();
+        $orderIncrementId = (string) $session->getLastRealOrderId();
+        if ($orderIncrementId === '') {
+            $this->_redirect('checkout/cart');
+            return;
         }
+
+        /** @var Mage_Sales_Model_Order $order */
+        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        if (!$order->getId()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        $payment = $order->getPayment();
+        $paymentId = $payment ? (string) $payment->getAdditionalInformation('mollie_payment_id') : '';
+        if ($paymentId === '') {
+            // No Mollie id recorded — we can't verify; push customer back to cart.
+            $this->_restoreCart($order);
+            Mage::getSingleton('core/session')->addError(
+                Mage::helper('maho_mollie')->__('We could not verify your Mollie payment. Please try again.'),
+            );
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        try {
+            /** @var Maho_Mollie_Helper_Data $helper */
+            $helper = Mage::helper('maho_mollie');
+            $client = $helper->getApiClient((int) $order->getStoreId());
+            $molliePayment = $client->payments->get($paymentId);
+        } catch (\Throwable $e) {
+            Mage::logException($e);
+            Mage::getSingleton('core/session')->addError(
+                Mage::helper('maho_mollie')->__('There was a problem verifying your payment. Please try again.'),
+            );
+            $this->_restoreCart($order);
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        // Paid/pending/authorized/open all go to the success page — the webhook finalizes state.
+        if ($molliePayment->isPaid()
+            || $molliePayment->isAuthorized()
+            || $molliePayment->isPending()
+            || $molliePayment->isOpen()
+        ) {
+            $quote = $session->getQuote();
+            if ($quote->getId()) {
+                $quote->setIsActive(0)->save();
+            }
+            $this->_redirect('checkout/onepage/success', ['_secure' => true]);
+            return;
+        }
+
+        if ($molliePayment->isCanceled() || $molliePayment->isExpired() || $molliePayment->isFailed()) {
+            $this->_restoreCart($order);
+            Mage::getSingleton('core/session')->addError(
+                Mage::helper('maho_mollie')->__('Your payment was not completed. Please try again.'),
+            );
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        // Unknown status — treat as pending, let the webhook sort it out.
         $this->_redirect('checkout/onepage/success', ['_secure' => true]);
     }
 

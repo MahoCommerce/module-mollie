@@ -53,16 +53,308 @@ class Maho_Mollie_Model_Cron
             return;
         }
 
-        $paymentId = $payment->getAdditionalInformation('mollie_payment_id');
-        if (!$paymentId) {
+        $paymentId = (string) $payment->getAdditionalInformation('mollie_payment_id');
+        if ($paymentId === '') {
             return;
         }
 
-        // TODO: port from M2 Cron/PendingPaymentReminder.php — fetch the Mollie Payment,
-        // branch on $molliePayment->status:
-        //   - 'paid'      -> registerCaptureNotification
-        //   - 'canceled'  -> $order->cancel()
-        //   - 'expired'   -> $order->cancel()
-        //   - 'failed'    -> $order->cancel()
+        /** @var Maho_Mollie_Helper_Data $helper */
+        $helper = Mage::helper('maho_mollie');
+        $client = $helper->getApiClient((int) $order->getStoreId());
+        $molliePayment = $client->payments->get($paymentId);
+
+        $this->reconcile($order, $molliePayment, 'cron');
+    }
+
+    /**
+     * Apply the Mollie payment status to the Maho order. Idempotent: safe to call
+     * repeatedly with the same payment state.
+     */
+    public function reconcile(
+        Mage_Sales_Model_Order $order,
+        \Mollie\Api\Resources\Payment $molliePayment,
+        string $source = 'webhook',
+    ): void {
+        $status = (string) $molliePayment->status;
+        $incrementId = (string) $order->getIncrementId();
+
+        Mage::log(
+            "Mollie {$source}: order #{$incrementId} payment id={$molliePayment->id} status={$status}",
+            Mage::LOG_INFO,
+            'mollie.log',
+        );
+
+        if ($molliePayment->isPaid() || $molliePayment->isAuthorized()) {
+            if (!$order->hasInvoices()) {
+                $amount = (float) $molliePayment->amount->value;
+                $orderPayment = $order->getPayment();
+                if (!$orderPayment) {
+                    return;
+                }
+
+                $orderPayment->setTransactionId((string) $molliePayment->id);
+                $orderPayment->setCurrencyCode((string) $molliePayment->amount->currency);
+                $orderPayment->setIsTransactionClosed(true);
+                // Second arg true => auto-create an invoice on capture.
+                $orderPayment->registerCaptureNotification($amount, true);
+                $order->save();
+
+                Mage::log(
+                    "Mollie {$source}: order #{$incrementId} captured {$amount} {$molliePayment->amount->currency}",
+                    Mage::LOG_INFO,
+                    'mollie.log',
+                );
+            }
+
+            // A paid/authorized payment can still have refunds or chargebacks
+            // arrive asynchronously — fall through to those checks below.
+            if ($molliePayment->hasRefunds()) {
+                $this->_processExternalRefunds($order, $molliePayment, $source);
+            }
+            if ($molliePayment->hasChargebacks()) {
+                $this->_processChargebacks($order, $molliePayment, $source);
+            }
+            return;
+        }
+
+        if ($molliePayment->isCanceled() || $molliePayment->isExpired() || $molliePayment->isFailed()) {
+            if ($order->isCanceled() || $order->getState() === Mage_Sales_Model_Order::STATE_CANCELED) {
+                return; // already canceled
+            }
+
+            $order->cancel()->save();
+            Mage::log(
+                "Mollie {$source}: order #{$incrementId} canceled (status={$status})",
+                Mage::LOG_INFO,
+                'mollie.log',
+            );
+            return;
+        }
+
+        if ($molliePayment->isOpen() || $molliePayment->isPending()) {
+            // Still waiting for the customer — nothing to do.
+            return;
+        }
+
+        if ($molliePayment->hasRefunds()) {
+            $this->_processExternalRefunds($order, $molliePayment, $source);
+        }
+
+        if ($molliePayment->hasChargebacks()) {
+            $this->_processChargebacks($order, $molliePayment, $source);
+        }
+
+        if ($molliePayment->hasRefunds() || $molliePayment->hasChargebacks()) {
+            return;
+        }
+
+        Mage::log(
+            "Mollie {$source}: unhandled status '{$status}' for order #{$incrementId}",
+            Mage::LOG_WARNING,
+            'mollie.log',
+        );
+    }
+
+    /**
+     * Register any Mollie refunds that were NOT initiated from this Maho instance.
+     *
+     * Refunds initiated from admin creditmemo save (Method_Standard::refund) are
+     * tracked locally in payment additional_information under 'mollie_refund_ids';
+     * those are skipped here because Maho already created the creditmemo.
+     *
+     * Refunds initiated externally (Mollie dashboard, direct API) have no local
+     * record, so we create an offline creditmemo via registerRefundNotification.
+     * Idempotency is provided by Maho's transaction bookkeeping: the refund id
+     * is used as the transaction id, and _isTransactionExists short-circuits
+     * duplicate notifications.
+     */
+    protected function _processExternalRefunds(
+        Mage_Sales_Model_Order $order,
+        \Mollie\Api\Resources\Payment $molliePayment,
+        string $source,
+    ): void {
+        $incrementId = (string) $order->getIncrementId();
+        $orderPayment = $order->getPayment();
+        if (!$orderPayment) {
+            return;
+        }
+
+        $knownIds = $this->_getKnownRefundIds($orderPayment);
+
+        try {
+            $refunds = $molliePayment->refunds();
+        } catch (\Throwable $e) {
+            Mage::logException($e);
+            Mage::log(
+                "Mollie {$source}: failed to list refunds for order #{$incrementId}: {$e->getMessage()}",
+                Mage::LOG_ERROR,
+                'mollie.log',
+            );
+            return;
+        }
+
+        foreach ($refunds as $refund) {
+            /** @var \Mollie\Api\Resources\Refund $refund */
+            $refundId = (string) $refund->id;
+            if ($refundId === '') {
+                continue;
+            }
+
+            // Refund we initiated from Maho — creditmemo already exists.
+            if (in_array($refundId, $knownIds, true)) {
+                Mage::log(
+                    "Mollie {$source}: refund {$refundId} for order #{$incrementId} already processed locally",
+                    Mage::LOG_INFO,
+                    'mollie.log',
+                );
+                continue;
+            }
+
+            // Failed/canceled refunds shouldn't produce a creditmemo.
+            if (method_exists($refund, 'isFailed') && $refund->isFailed()) {
+                continue;
+            }
+            if (method_exists($refund, 'isCanceled') && $refund->isCanceled()) {
+                continue;
+            }
+
+            $amount = (float) ($refund->amount->value ?? 0);
+            $currency = (string) ($refund->amount->currency ?? $order->getOrderCurrencyCode());
+
+            if ($amount <= 0) {
+                continue;
+            }
+
+            try {
+                $orderPayment->setParentTransactionId($orderPayment->getLastTransId() ?: (string) $molliePayment->id);
+                $orderPayment->setTransactionId($refundId);
+                $orderPayment->setIsTransactionClosed(true);
+                $orderPayment->setCurrencyCode($currency);
+                $orderPayment->registerRefundNotification($amount);
+
+                $order->addStatusHistoryComment(
+                    Mage::helper('maho_mollie')->__(
+                        'Mollie refund %s (%s %s) was initiated outside Maho — offline credit memo created.',
+                        $refundId,
+                        number_format($amount, 2, '.', ''),
+                        $currency,
+                    ),
+                );
+                $order->save();
+
+                // Track it so subsequent webhook redeliveries recognise it.
+                $knownIds[] = $refundId;
+                $this->_persistKnownRefundIds($orderPayment, $knownIds);
+                $orderPayment->save();
+
+                Mage::log(
+                    "Mollie {$source}: external refund {$refundId} registered for order #{$incrementId} "
+                    . "amount={$amount} {$currency}",
+                    Mage::LOG_INFO,
+                    'mollie.log',
+                );
+            } catch (\Throwable $e) {
+                Mage::logException($e);
+                Mage::log(
+                    "Mollie {$source}: failed to register refund {$refundId} for order #{$incrementId}: "
+                    . $e->getMessage(),
+                    Mage::LOG_ERROR,
+                    'mollie.log',
+                );
+            }
+        }
+    }
+
+    /**
+     * Handle chargeback notifications. Safer default: only log + add an order
+     * comment, do NOT auto-create a credit memo. Chargebacks can affect
+     * accounting differently than voluntary refunds; leave resolution to admin.
+     */
+    protected function _processChargebacks(
+        Mage_Sales_Model_Order $order,
+        \Mollie\Api\Resources\Payment $molliePayment,
+        string $source,
+    ): void {
+        $incrementId = (string) $order->getIncrementId();
+        $amount = $molliePayment->getAmountChargedBack();
+        $currency = (string) ($molliePayment->amount->currency ?? $order->getOrderCurrencyCode());
+
+        $orderPayment = $order->getPayment();
+        $commentKey = 'mollie_chargeback_notified_amount';
+        $already = '';
+        if ($orderPayment instanceof Mage_Sales_Model_Order_Payment) {
+            $already = (string) ($orderPayment->getAdditionalInformation($commentKey) ?? '');
+        }
+        $current = number_format($amount, 2, '.', '');
+        if ($already === $current) {
+            return; // already notified for this total — idempotent
+        }
+
+        $message = Mage::helper('maho_mollie')->__(
+            'Mollie chargeback detected for payment %s (total charged back: %s %s). '
+            . 'Review and create an offline credit memo if needed.',
+            (string) $molliePayment->id,
+            $current,
+            $currency,
+        );
+        $order->addStatusHistoryComment($message, false)
+            ->setIsCustomerNotified(false);
+        $order->save();
+
+        if ($orderPayment instanceof Mage_Sales_Model_Order_Payment) {
+            $orderPayment->setAdditionalInformation($commentKey, $current);
+            $orderPayment->save();
+        }
+
+        Mage::log(
+            "Mollie {$source}: chargeback on order #{$incrementId} amount={$current} {$currency}",
+            Mage::LOG_WARNING,
+            'mollie.log',
+        );
+    }
+
+    /**
+     * @return list<string>
+     */
+    protected function _getKnownRefundIds(Mage_Sales_Model_Order_Payment $orderPayment): array
+    {
+        $stored = $orderPayment->getAdditionalInformation('mollie_refund_ids');
+        if (is_array($stored)) {
+            return array_values(array_filter(
+                $stored,
+                static fn($v): bool => is_string($v) && $v !== '',
+            ));
+        }
+        if (is_string($stored) && $stored !== '') {
+            try {
+                /** @var Mage_Core_Helper_Data $coreHelper */
+                $coreHelper = Mage::helper('core');
+                $decoded = $coreHelper->jsonDecode($stored);
+                if (is_array($decoded)) {
+                    return array_values(array_filter(
+                        $decoded,
+                        static fn($v): bool => is_string($v) && $v !== '',
+                    ));
+                }
+            } catch (\Throwable) {
+                // fall through to empty list
+            }
+        }
+        return [];
+    }
+
+    /**
+     * @param list<string> $ids
+     */
+    protected function _persistKnownRefundIds(
+        Mage_Sales_Model_Order_Payment $orderPayment,
+        array $ids,
+    ): void {
+        /** @var Mage_Core_Helper_Data $coreHelper */
+        $coreHelper = Mage::helper('core');
+        $orderPayment->setAdditionalInformation(
+            'mollie_refund_ids',
+            $coreHelper->jsonEncode(array_values(array_unique($ids))),
+        );
     }
 }

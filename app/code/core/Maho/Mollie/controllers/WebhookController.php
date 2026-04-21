@@ -32,22 +32,65 @@ class Maho_Mollie_WebhookController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            // TODO: port from M2 Controller/Checkout/Webhook.php
-            // 1. Find the local order by mollie_payment_id stored in payment additional_information.
-            // 2. Fetch $molliePayment = $client->payments->get($paymentId) with the store-scoped client.
-            // 3. Branch on $molliePayment->status:
-            //      'paid'     -> registerCaptureNotification, create invoice
-            //      'canceled' -> $order->cancel()
-            //      'expired'  -> $order->cancel()
-            //      'failed'   -> $order->cancel()
-            //      'refunded' / 'charged_back' -> handled via refund webhook path
-            // 4. Return 200 for any recognized status so Mollie stops retrying.
+            $order = $this->_findOrderByMolliePaymentId($paymentId);
+            if (!$order) {
+                Mage::log(
+                    "Mollie webhook: no order found for payment id={$paymentId}",
+                    Mage::LOG_WARNING,
+                    'mollie.log',
+                );
+                // Return 200 so Mollie doesn't keep retrying for an order we can't match.
+                $this->getResponse()->setHttpResponseCode(200);
+                return;
+            }
 
-            Mage::log("Mollie webhook received for payment id={$paymentId} (not yet implemented)", Mage::LOG_INFO, 'mollie.log');
+            /** @var Maho_Mollie_Helper_Data $helper */
+            $helper = Mage::helper('maho_mollie');
+            $client = $helper->getApiClient((int) $order->getStoreId());
+            $molliePayment = $client->payments->get($paymentId);
+
+            /** @var Maho_Mollie_Model_Cron $reconciler */
+            $reconciler = Mage::getModel('maho_mollie/cron');
+            $reconciler->reconcile($order, $molliePayment, 'webhook');
+
             $this->getResponse()->setHttpResponseCode(200);
         } catch (\Throwable $e) {
             Mage::logException($e);
+            Mage::log(
+                "Mollie webhook: error processing id={$paymentId}: {$e->getMessage()}",
+                Mage::LOG_ERROR,
+                'mollie.log',
+            );
             $this->getResponse()->setHttpResponseCode(500);
         }
+    }
+
+    protected function _findOrderByMolliePaymentId(string $paymentId): ?Mage_Sales_Model_Order
+    {
+        $resource = Mage::getSingleton('core/resource');
+        $paymentTable = $resource->getTableName('sales/order_payment');
+
+        /** @var Mage_Sales_Model_Resource_Order_Collection $collection */
+        $collection = Mage::getModel('sales/order')->getCollection();
+        $collection->getSelect()->join(
+            ['payment' => $paymentTable],
+            'payment.parent_id = main_table.entity_id',
+            [],
+        );
+        $collection->getSelect()->where('payment.method = ?', 'mollie');
+        $collection->getSelect()->where(
+            'payment.additional_information LIKE ?',
+            '%' . $paymentId . '%',
+        );
+        $collection->setPageSize(5);
+
+        foreach ($collection as $candidate) {
+            $payment = $candidate->getPayment();
+            if ($payment && (string) $payment->getAdditionalInformation('mollie_payment_id') === $paymentId) {
+                return $candidate;
+            }
+        }
+
+        return null;
     }
 }

@@ -60,6 +60,16 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
         return in_array($locale, $supported, true) ? $locale : 'en_US';
     }
 
+    public function getReturnUrl(?int $storeId = null): string
+    {
+        return Mage::getUrl('mollie/payment/return', ['_secure' => true, '_store' => $storeId]);
+    }
+
+    public function getWebhookUrl(?int $storeId = null): string
+    {
+        return Mage::getUrl('mollie/webhook', ['_secure' => true, '_store' => $storeId]);
+    }
+
     /**
      * Return a configured Mollie API client for the given store scope.
      *
