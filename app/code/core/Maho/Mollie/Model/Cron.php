@@ -78,11 +78,18 @@ class Maho_Mollie_Model_Cron
         $status = (string) $molliePayment->status;
         $incrementId = (string) $order->getIncrementId();
 
-        Mage::log(
-            "Mollie {$source}: order #{$incrementId} payment id={$molliePayment->id} status={$status}",
-            Mage::LOG_INFO,
-            'mollie.log',
-        );
+        /** @var Maho_Mollie_Helper_Data $helper */
+        $helper = Mage::helper('maho_mollie');
+        $storeId = (int) $order->getStoreId();
+        $debug = $helper->isDebugEnabled($storeId);
+
+        if ($debug) {
+            Mage::log(
+                "Mollie {$source}: order #{$incrementId} payment id={$molliePayment->id} status={$status}",
+                Mage::LOG_INFO,
+                'mollie.log',
+            );
+        }
 
         if ($molliePayment->isPaid() || $molliePayment->isAuthorized()) {
             if (!$order->hasInvoices()) {
@@ -115,11 +122,13 @@ class Maho_Mollie_Model_Cron
                     $order->save();
                 }
 
-                Mage::log(
-                    "Mollie {$source}: order #{$incrementId} captured {$amount} {$molliePayment->amount->currency}",
-                    Mage::LOG_INFO,
-                    'mollie.log',
-                );
+                if ($debug) {
+                    Mage::log(
+                        "Mollie {$source}: order #{$incrementId} captured {$amount} {$molliePayment->amount->currency}",
+                        Mage::LOG_INFO,
+                        'mollie.log',
+                    );
+                }
             }
 
             // A paid/authorized payment can still have refunds or chargebacks
@@ -139,11 +148,13 @@ class Maho_Mollie_Model_Cron
             }
 
             $order->cancel()->save();
-            Mage::log(
-                "Mollie {$source}: order #{$incrementId} canceled (status={$status})",
-                Mage::LOG_INFO,
-                'mollie.log',
-            );
+            if ($debug) {
+                Mage::log(
+                    "Mollie {$source}: order #{$incrementId} canceled (status={$status})",
+                    Mage::LOG_INFO,
+                    'mollie.log',
+                );
+            }
             return;
         }
 
@@ -195,6 +206,10 @@ class Maho_Mollie_Model_Cron
             return;
         }
 
+        /** @var Maho_Mollie_Helper_Data $helper */
+        $helper = Mage::helper('maho_mollie');
+        $debug = $helper->isDebugEnabled((int) $order->getStoreId());
+
         $knownIds = $this->_getKnownRefundIds($orderPayment);
 
         try {
@@ -218,11 +233,13 @@ class Maho_Mollie_Model_Cron
 
             // Refund we initiated from Maho — creditmemo already exists.
             if (in_array($refundId, $knownIds, true)) {
-                Mage::log(
-                    "Mollie {$source}: refund {$refundId} for order #{$incrementId} already processed locally",
-                    Mage::LOG_INFO,
-                    'mollie.log',
-                );
+                if ($debug) {
+                    Mage::log(
+                        "Mollie {$source}: refund {$refundId} for order #{$incrementId} already processed locally",
+                        Mage::LOG_INFO,
+                        'mollie.log',
+                    );
+                }
                 continue;
             }
 
@@ -263,12 +280,14 @@ class Maho_Mollie_Model_Cron
                 $this->_persistKnownRefundIds($orderPayment, $knownIds);
                 $orderPayment->save();
 
-                Mage::log(
-                    "Mollie {$source}: external refund {$refundId} registered for order #{$incrementId} "
-                    . "amount={$amount} {$currency}",
-                    Mage::LOG_INFO,
-                    'mollie.log',
-                );
+                if ($debug) {
+                    Mage::log(
+                        "Mollie {$source}: external refund {$refundId} registered for order #{$incrementId} "
+                        . "amount={$amount} {$currency}",
+                        Mage::LOG_INFO,
+                        'mollie.log',
+                    );
+                }
             } catch (\Throwable $e) {
                 Mage::logException($e);
                 Mage::log(

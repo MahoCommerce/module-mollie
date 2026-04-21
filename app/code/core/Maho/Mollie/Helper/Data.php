@@ -33,6 +33,17 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Whether verbose Mollie logging is enabled for the given store scope.
+     *
+     * Controls info/debug-level entries written to var/log/mollie.log. Warnings
+     * and errors are logged unconditionally.
+     */
+    public function isDebugEnabled(?int $storeId = null): bool
+    {
+        return (bool) Mage::getStoreConfigFlag('maho_mollie/credentials/debug', $storeId);
+    }
+
+    /**
      * Format an amount as Mollie expects it in API calls: string with exactly two decimals,
      * dot as decimal separator, no thousands separator. E.g. "10.00", "1234.56".
      */

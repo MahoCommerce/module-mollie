@@ -252,12 +252,14 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
             $payment->setTransactionId($refundId);
             $payment->setIsTransactionClosed(true);
 
-            Mage::log(
-                "Mollie refund: created refund {$refundId} for order #{$incrementId} "
-                . "amount={$payload['amount']['value']} {$currencyCode}",
-                Mage::LOG_INFO,
-                'mollie.log',
-            );
+            if ($helper->isDebugEnabled($storeId)) {
+                Mage::log(
+                    "Mollie refund: created refund {$refundId} for order #{$incrementId} "
+                    . "amount={$payload['amount']['value']} {$currencyCode}",
+                    Mage::LOG_INFO,
+                    'mollie.log',
+                );
+            }
         } catch (\Throwable $e) {
             Mage::logException($e);
             Mage::throwException($helper->__(

@@ -80,6 +80,18 @@
         </jobs>
     </crontab>
 
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Maho_Mollie before="Mage_Adminhtml">Maho_Mollie_Adminhtml</Maho_Mollie>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
     <frontend>
         <routers>
             <mollie>
@@ -111,6 +123,7 @@
                 <testmode>1</testmode>
                 <api_key_live backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_key_test backend_model="adminhtml/system_config_backend_encrypted"/>
+                <debug>0</debug>
             </credentials>
             <statuses>
                 <order_status_pending>pending_payment</order_status_pending>
