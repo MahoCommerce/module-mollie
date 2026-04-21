@@ -88,9 +88,102 @@
                     </fields>
                 </maho_mollie_statuses>
 
+                <maho_mollie_payment_fee translate="label">
+                    <label>Mollie - Payment Fee (Surcharge)</label>
+                    <sort_order>302</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <fee_type translate="label comment">
+                            <label>Fee Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_paymentFee_type</source_model>
+                            <config_path>maho_mollie/payment_fee/fee_type</config_path>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Disabled turns off the fee globally. Fixed = flat amount, Percentage = % of subtotal, Combined = both.</comment>
+                        </fee_type>
+                        <fee_fixed translate="label comment">
+                            <label>Fixed Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-zero-or-greater validate-number</validate>
+                            <config_path>maho_mollie/payment_fee/fee_fixed</config_path>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Flat surcharge in the store's base currency (e.g. 0.30 for €0.30).</comment>
+                            <depends>
+                                <fee_type separator=",">fixed,combined</fee_type>
+                            </depends>
+                        </fee_fixed>
+                        <fee_percent translate="label comment">
+                            <label>Percentage Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-zero-or-greater validate-number</validate>
+                            <config_path>maho_mollie/payment_fee/fee_percent</config_path>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Percent of the base (e.g. 1.5 for 1.5%).</comment>
+                            <depends>
+                                <fee_type separator=",">percent,combined</fee_type>
+                            </depends>
+                        </fee_percent>
+                        <fee_tax_class translate="label comment">
+                            <label>Fee Tax Class</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_taxclass</source_model>
+                            <config_path>maho_mollie/payment_fee/tax_class</config_path>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Product tax class applied to the fee. Maho's native tax collector does not automatically tax the payment_fee_amount — this setting is reserved for a future tax hook.</comment>
+                        </fee_tax_class>
+                        <fee_max translate="label comment">
+                            <label>Maximum Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-zero-or-greater validate-number</validate>
+                            <config_path>maho_mollie/payment_fee/fee_max</config_path>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Maximum surcharge; empty for no cap.</comment>
+                        </fee_max>
+                        <include_shipping translate="label comment">
+                            <label>Include Shipping in Fee Base</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>maho_mollie/payment_fee/include_shipping</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, shipping is added to the base before the percentage is applied.</comment>
+                        </include_shipping>
+                        <include_discount translate="label comment">
+                            <label>Include Discount in Fee Base</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>maho_mollie/payment_fee/include_discount</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, discounts reduce the base before the percentage is applied.</comment>
+                        </include_discount>
+                    </fields>
+                </maho_mollie_payment_fee>
+
                 <mollie translate="label">
                     <label>Mollie - Gateway Payment</label>
-                    <sort_order>302</sort_order>
+                    <sort_order>303</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -168,12 +261,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie>
 
                 <mollie_ideal translate="label">
                     <label>Mollie - iDEAL</label>
-                    <sort_order>303</sort_order>
+                    <sort_order>304</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -251,12 +355,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_ideal/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_ideal>
 
                 <mollie_bancontact translate="label">
                     <label>Mollie - Bancontact</label>
-                    <sort_order>304</sort_order>
+                    <sort_order>305</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -334,12 +449,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_bancontact/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_bancontact>
 
                 <mollie_creditcard translate="label">
                     <label>Mollie - Credit Card</label>
-                    <sort_order>305</sort_order>
+                    <sort_order>306</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -417,12 +543,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_creditcard/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_creditcard>
 
                 <mollie_paypal translate="label">
                     <label>Mollie - PayPal</label>
-                    <sort_order>306</sort_order>
+                    <sort_order>307</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -500,12 +637,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_paypal/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_paypal>
 
                 <mollie_klarnapaylater translate="label">
                     <label>Mollie - Klarna Pay later</label>
-                    <sort_order>307</sort_order>
+                    <sort_order>308</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -583,12 +731,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_klarnapaylater/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_klarnapaylater>
 
                 <mollie_klarnapaynow translate="label">
                     <label>Mollie - Klarna Pay now</label>
-                    <sort_order>308</sort_order>
+                    <sort_order>309</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -666,12 +825,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_klarnapaynow/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_klarnapaynow>
 
                 <mollie_klarnasliceit translate="label">
                     <label>Mollie - Klarna Slice it</label>
-                    <sort_order>309</sort_order>
+                    <sort_order>310</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -749,12 +919,23 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_klarnasliceit/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_klarnasliceit>
 
                 <mollie_applepay translate="label">
                     <label>Mollie - Apple Pay</label>
-                    <sort_order>310</sort_order>
+                    <sort_order>311</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -832,6 +1013,17 @@
                             <show_in_store>1</show_in_store>
                             <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
                         </order_status_processing_override>
+                        <fee_enabled translate="label comment">
+                            <label>Apply Mollie Payment Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <config_path>payment/mollie_applepay/fee_enabled</config_path>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>When Yes, the globally configured Mollie payment fee is added to the order total if this method is selected.</comment>
+                        </fee_enabled>
                     </fields>
                 </mollie_applepay>
             </groups>

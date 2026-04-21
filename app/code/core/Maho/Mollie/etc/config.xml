@@ -11,7 +11,7 @@
 <config>
     <modules>
         <Maho_Mollie>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
         </Maho_Mollie>
     </modules>
 
@@ -33,6 +33,38 @@
                 <class>Maho_Mollie_Helper</class>
             </maho_mollie>
         </helpers>
+
+        <resources>
+            <maho_mollie_setup>
+                <setup>
+                    <module>Maho_Mollie</module>
+                    <class>Mage_Sales_Model_Resource_Setup</class>
+                </setup>
+            </maho_mollie_setup>
+        </resources>
+
+        <sales>
+            <quote>
+                <totals>
+                    <payment_fee>
+                        <class>maho_mollie/quote_address_total_paymentFee</class>
+                        <after>subtotal,shipping,tax,discount</after>
+                        <before>grand_total</before>
+                    </payment_fee>
+                </totals>
+            </quote>
+        </sales>
+
+        <events>
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <maho_mollie_copy_payment_fee>
+                        <class>maho_mollie/observer</class>
+                        <method>copyPaymentFeeToOrder</method>
+                    </maho_mollie_copy_payment_fee>
+                </observers>
+            </sales_model_service_quote_submit_before>
+        </events>
     </global>
 
     <crontab>
@@ -84,6 +116,14 @@
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </statuses>
+            <payment_fee>
+                <fee_type>disabled</fee_type>
+                <fee_fixed>0</fee_fixed>
+                <fee_percent>0</fee_percent>
+                <fee_max></fee_max>
+                <include_shipping>0</include_shipping>
+                <include_discount>0</include_discount>
+            </payment_fee>
         </maho_mollie>
         <payment>
             <mollie>
@@ -93,6 +133,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>100</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie>
             <mollie_ideal>
                 <active>0</active>
@@ -101,6 +142,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>101</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_ideal>
             <mollie_bancontact>
                 <active>0</active>
@@ -109,6 +151,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>102</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_bancontact>
             <mollie_creditcard>
                 <active>0</active>
@@ -117,6 +160,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>103</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_creditcard>
             <mollie_paypal>
                 <active>0</active>
@@ -125,6 +169,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>104</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_paypal>
             <mollie_klarnapaylater>
                 <active>0</active>
@@ -133,6 +178,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>105</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_klarnapaylater>
             <mollie_klarnapaynow>
                 <active>0</active>
@@ -141,6 +187,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>106</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_klarnapaynow>
             <mollie_klarnasliceit>
                 <active>0</active>
@@ -149,6 +196,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>107</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_klarnasliceit>
             <mollie_applepay>
                 <active>0</active>
@@ -157,6 +205,7 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>108</sort_order>
+                <fee_enabled>0</fee_enabled>
             </mollie_applepay>
         </payment>
     </default>

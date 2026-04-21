@@ -6,3 +6,8 @@
 "Order #%s","Order #%s"
 "Refund for order #%s","Refund for order #%s"
 "Unable to initialize payment. Please try again.","Unable to initialize payment. Please try again."
+"Payment fee","Payment fee"
+"Disabled","Disabled"
+"Fixed amount","Fixed amount"
+"Percentage","Percentage"
+"Fixed amount + Percentage","Fixed amount + Percentage"
