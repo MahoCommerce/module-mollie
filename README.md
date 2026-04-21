@@ -69,6 +69,10 @@ Find your API keys in the [Mollie dashboard](https://my.mollie.com/dashboard/) u
 - [ ] Multi-store API key scoping
 - [ ] Multi-currency support
 
+## Acknowledgements
+
+Architecture and feature set informed by the official [mollie/magento2](https://github.com/mollie/magento2) module by Magmodules (OSL-3.0). This module is an independent Maho implementation; no code is copied, but the integration shape and feature surface follow the upstream as a reference.
+
 ## License
 
 This module is licensed under the [Open Software License v3.0](LICENSE.txt).
