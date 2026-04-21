@@ -1,0 +1,8 @@
+"Cannot refund: missing Mollie transaction data.","Cannot refund: missing Mollie transaction data."
+"Mollie","Mollie"
+"Mollie API error: %s","Mollie API error: %s"
+"Mollie Payment ID","Mollie Payment ID"
+"Mollie Payment Method","Mollie Payment Method"
+"Order #%s","Order #%s"
+"Refund for order #%s","Refund for order #%s"
+"Unable to initialize payment. Please try again.","Unable to initialize payment. Please try again."

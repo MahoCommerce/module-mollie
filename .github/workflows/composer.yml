@@ -1,0 +1,17 @@
+name: Composer Validate
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    composer:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Validate composer.json
+              run: composer validate --strict --no-check-all

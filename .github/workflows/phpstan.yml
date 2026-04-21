@@ -1,0 +1,48 @@
+name: PHPStan
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    phpstan:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php-version: ['8.3', '8.4', '8.5']
+
+        name: PHPStan (PHP ${{ matrix.php-version }})
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - uses: actions/cache@v4
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: composer-${{ matrix.php-version }}-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-${{ matrix.php-version }}-
+
+            - name: Install dependencies
+              run: composer install --no-interaction --no-progress
+
+            - uses: actions/cache@v4
+              with:
+                  path: .phpstan.cache
+                  key: phpstan-${{ matrix.php-version }}-${{ github.ref_name }}-${{ github.run_id }}
+                  restore-keys: |
+                      phpstan-${{ matrix.php-version }}-${{ github.ref_name }}
+                      phpstan-${{ matrix.php-version }}-main
+
+            - name: Run PHPStan
+              run: XDEBUG_MODE=off php vendor/bin/phpstan analyze -vvv

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Maho
+ *
+ * @package    Maho_Mollie
+ * @copyright  Copyright (c) 2026 Maho (https://mahocommerce.com)
+ * @license    https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Maho_Mollie>
+            <version>1.0.0</version>
+        </Maho_Mollie>
+    </modules>
+
+    <global>
+        <models>
+            <maho_mollie>
+                <class>Maho_Mollie_Model</class>
+            </maho_mollie>
+        </models>
+
+        <blocks>
+            <maho_mollie>
+                <class>Maho_Mollie_Block</class>
+            </maho_mollie>
+        </blocks>
+
+        <helpers>
+            <maho_mollie>
+                <class>Maho_Mollie_Helper</class>
+            </maho_mollie>
+        </helpers>
+    </global>
+
+    <crontab>
+        <jobs>
+            <maho_mollie_check_pending_payments>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>maho_mollie/cron::checkPendingPayments</model>
+                </run>
+            </maho_mollie_check_pending_payments>
+        </jobs>
+    </crontab>
+
+    <frontend>
+        <routers>
+            <mollie>
+                <use>standard</use>
+                <args>
+                    <module>Maho_Mollie</module>
+                    <frontName>mollie</frontName>
+                </args>
+            </mollie>
+        </routers>
+        <secure_url>
+            <maho_mollie_payment>/mollie/payment</maho_mollie_payment>
+            <maho_mollie_webhook>/mollie/webhook</maho_mollie_webhook>
+        </secure_url>
+        <translate>
+            <modules>
+                <Maho_Mollie>
+                    <files>
+                        <default>Maho_Mollie.csv</default>
+                    </files>
+                </Maho_Mollie>
+            </modules>
+        </translate>
+    </frontend>
+
+    <default>
+        <maho_mollie>
+            <credentials>
+                <testmode>1</testmode>
+                <api_key_live backend_model="adminhtml/system_config_backend_encrypted"/>
+                <api_key_test backend_model="adminhtml/system_config_backend_encrypted"/>
+            </credentials>
+        </maho_mollie>
+        <payment>
+            <mollie>
+                <active>0</active>
+                <model>maho_mollie/method_standard</model>
+                <title>Mollie</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>100</sort_order>
+            </mollie>
+        </payment>
+    </default>
+</config>

@@ -1,0 +1,24 @@
+{
+    "name": "mahocommerce/module-mollie",
+    "description": "Mollie payment gateway integration for Maho",
+    "type": "maho-module",
+    "license": ["OSL-3.0", "AFL-3.0"],
+    "require": {
+        "php": ">=8.3",
+        "mollie/mollie-api-php": "^3"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "*",
+        "mahocommerce/maho": "*",
+        "mahocommerce/maho-phpstan-plugin": "*",
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-deprecation-rules": "*",
+        "phpstan/phpstan-strict-rules": "*",
+        "rector/rector": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "mahocommerce/maho-composer-plugin": true
+        }
+    }
+}
