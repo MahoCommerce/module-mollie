@@ -207,6 +207,69 @@
                 <sort_order>108</sort_order>
                 <fee_enabled>0</fee_enabled>
             </mollie_applepay>
+            <mollie_banktransfer>
+                <active>0</active>
+                <model>maho_mollie/method_banktransfer</model>
+                <title>Bank Transfer</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>109</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_banktransfer>
+            <mollie_directdebit>
+                <active>0</active>
+                <model>maho_mollie/method_directdebit</model>
+                <title>SEPA Direct Debit</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>110</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_directdebit>
+            <mollie_giftcard>
+                <active>0</active>
+                <model>maho_mollie/method_giftcard</model>
+                <title>Gift Card</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>111</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_giftcard>
+            <mollie_in3>
+                <active>0</active>
+                <model>maho_mollie/method_in3</model>
+                <title>iDEAL in3</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>112</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_in3>
+            <mollie_riverty>
+                <active>0</active>
+                <model>maho_mollie/method_riverty</model>
+                <title>Riverty</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>113</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_riverty>
+            <mollie_googlepay>
+                <active>0</active>
+                <model>maho_mollie/method_googlepay</model>
+                <title>Google Pay</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>114</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_googlepay>
+            <mollie_trustly>
+                <active>0</active>
+                <model>maho_mollie/method_trustly</model>
+                <title>Trustly</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>115</sort_order>
+                <fee_enabled>0</fee_enabled>
+            </mollie_trustly>
         </payment>
     </default>
 </config>
