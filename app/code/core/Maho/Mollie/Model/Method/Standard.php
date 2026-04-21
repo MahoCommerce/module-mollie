@@ -48,8 +48,36 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     #[\Override]
     public function initialize($paymentAction, $stateObject): self
     {
-        $stateObject->setData('state', Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-        $stateObject->setData('status', 'pending_payment');
+        $storeId = null;
+        try {
+            $info = $this->getInfoInstance();
+            if ($info !== null) {
+                $source = $info->getOrder() ?: $info->getQuote();
+                if ($source !== null && $source->getStoreId() !== null) {
+                    $storeId = (int) $source->getStoreId();
+                }
+            }
+        } catch (\Throwable) {
+            $storeId = null;
+        }
+
+        $statusCode = $this->_getMollieHelper()->getPendingStatus($storeId, $this->getCode());
+
+        // Resolve the state the configured status is attached to. Falls back
+        // to STATE_PENDING_PAYMENT if the status row is missing or unassigned.
+        $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        /** @var Mage_Sales_Model_Order_Config $orderConfig */
+        $orderConfig = Mage::getSingleton('sales/order_config');
+        foreach ($orderConfig->getStatusStates($statusCode) as $statusState) {
+            $resolvedState = (string) $statusState->getState();
+            if ($resolvedState !== '') {
+                $state = $resolvedState;
+                break;
+            }
+        }
+
+        $stateObject->setData('state', $state);
+        $stateObject->setData('status', $statusCode);
         $stateObject->setData('is_notified', false);
         return $this;
     }

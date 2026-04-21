@@ -99,6 +99,22 @@ class Maho_Mollie_Model_Cron
                 $orderPayment->registerCaptureNotification($amount, true);
                 $order->save();
 
+                // registerCaptureNotification puts the order in STATE_PROCESSING with
+                // the default processing status. Apply the merchant-configured status
+                // (which may differ) while leaving the state as-is.
+                /** @var Maho_Mollie_Helper_Data $helper */
+                $helper = Mage::helper('maho_mollie');
+                $methodCode = (string) $orderPayment->getMethod();
+                $processingStatus = $helper->getProcessingStatus((int) $order->getStoreId(), $methodCode);
+                if ($processingStatus !== '' && $processingStatus !== (string) $order->getStatus()) {
+                    $order->setStatus($processingStatus);
+                    $order->addStatusHistoryComment(
+                        $helper->__('Order status set to "%s" per Mollie configuration.', $processingStatus),
+                        $processingStatus,
+                    )->setIsCustomerNotified(false);
+                    $order->save();
+                }
+
                 Mage::log(
                     "Mollie {$source}: order #{$incrementId} captured {$amount} {$molliePayment->amount->currency}",
                     Mage::LOG_INFO,

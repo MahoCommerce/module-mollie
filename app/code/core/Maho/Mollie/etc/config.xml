@@ -80,6 +80,10 @@
                 <api_key_live backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_key_test backend_model="adminhtml/system_config_backend_encrypted"/>
             </credentials>
+            <statuses>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
+            </statuses>
         </maho_mollie>
         <payment>
             <mollie>

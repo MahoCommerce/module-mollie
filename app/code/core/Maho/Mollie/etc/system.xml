@@ -56,9 +56,41 @@
                     </fields>
                 </maho_mollie_credentials>
 
+                <maho_mollie_statuses translate="label">
+                    <label>Mollie - Order Statuses</label>
+                    <sort_order>301</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <order_status_pending translate="label comment">
+                            <label>Pending-payment order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>maho_mollie/statuses/order_status_pending</config_path>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Applied to the order while the customer is at the Mollie checkout, before the payment result is known.</comment>
+                        </order_status_pending>
+                        <order_status_processing translate="label comment">
+                            <label>Paid (processing) order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>maho_mollie/statuses/order_status_processing</config_path>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Applied after a successful Mollie capture (paid/authorized). State remains "processing".</comment>
+                        </order_status_processing>
+                    </fields>
+                </maho_mollie_statuses>
+
                 <mollie translate="label">
                     <label>Mollie - Gateway Payment</label>
-                    <sort_order>301</sort_order>
+                    <sort_order>302</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -114,12 +146,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie>
 
                 <mollie_ideal translate="label">
                     <label>Mollie - iDEAL</label>
-                    <sort_order>302</sort_order>
+                    <sort_order>303</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -175,12 +229,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_ideal/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_ideal/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_ideal>
 
                 <mollie_bancontact translate="label">
                     <label>Mollie - Bancontact</label>
-                    <sort_order>303</sort_order>
+                    <sort_order>304</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -236,12 +312,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_bancontact/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_bancontact/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_bancontact>
 
                 <mollie_creditcard translate="label">
                     <label>Mollie - Credit Card</label>
-                    <sort_order>304</sort_order>
+                    <sort_order>305</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -297,12 +395,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_creditcard/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_creditcard/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_creditcard>
 
                 <mollie_paypal translate="label">
                     <label>Mollie - PayPal</label>
-                    <sort_order>305</sort_order>
+                    <sort_order>306</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -358,12 +478,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_paypal/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_paypal/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_paypal>
 
                 <mollie_klarnapaylater translate="label">
                     <label>Mollie - Klarna Pay later</label>
-                    <sort_order>306</sort_order>
+                    <sort_order>307</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -419,12 +561,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_klarnapaylater/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_klarnapaylater/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_klarnapaylater>
 
                 <mollie_klarnapaynow translate="label">
                     <label>Mollie - Klarna Pay now</label>
-                    <sort_order>307</sort_order>
+                    <sort_order>308</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -480,12 +644,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_klarnapaynow/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_klarnapaynow/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_klarnapaynow>
 
                 <mollie_klarnasliceit translate="label">
                     <label>Mollie - Klarna Slice it</label>
-                    <sort_order>308</sort_order>
+                    <sort_order>309</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -541,12 +727,34 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_klarnasliceit/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_klarnasliceit/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_klarnasliceit>
 
                 <mollie_applepay translate="label">
                     <label>Mollie - Apple Pay</label>
-                    <sort_order>309</sort_order>
+                    <sort_order>310</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -602,6 +810,28 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
+                        <order_status_pending_override translate="label comment">
+                            <label>Pending-payment order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>maho_mollie/system_config_source_order_status_pending</source_model>
+                            <config_path>payment/mollie_applepay/order_status_pending_override</config_path>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie pending-payment status.</comment>
+                        </order_status_pending_override>
+                        <order_status_processing_override translate="label comment">
+                            <label>Paid (processing) order status (override)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <config_path>payment/mollie_applepay/order_status_processing_override</config_path>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty to use the global Mollie paid (processing) status.</comment>
+                        </order_status_processing_override>
                     </fields>
                 </mollie_applepay>
             </groups>
