@@ -8,7 +8,7 @@
 
 Accept payments through [Mollie](https://www.mollie.com), one of Europe's leading payment service providers — offering 40+ payment methods across the Payments API and the Orders API (for Klarna and other Buy Now Pay Later methods).
 
-> **Status: Beta.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, including online refunds, admin-configurable order statuses, and a configurable payment fee. 8 payment methods ship out of the box. End-to-end checkout has not yet been verified against a live Mollie sandbox — expect rough edges. The Orders API (required for full Klarna line-item detail) and Apple Pay express checkout are not yet implemented.
+> **Status: Beta.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, including online refunds, admin-configurable order statuses, and a configurable payment fee. 16 payment methods ship out of the box with translations for Dutch, German, French, Italian, and Spanish. End-to-end checkout has not yet been verified against a live Mollie sandbox — expect rough edges. The Orders API (required for full Klarna line-item detail) and Apple Pay express checkout are not yet implemented.
 
 ## Requirements
 
@@ -39,6 +39,8 @@ Navigate to **System > Configuration > Payment Methods** in the Maho admin panel
 | **Test Mode** | Use the Mollie test API key to process mock payments | Yes |
 | **Live API Key** | Your Mollie live API key (starts with `live_`) | — |
 | **Test API Key** | Your Mollie test API key (starts with `test_`) | — |
+| **Test API Key** (button) | One-click check that the configured key can reach the Mollie API | — |
+| **Debug Logging** | When enabled, writes verbose reconcile/refund events to `var/log/mollie.log` | No |
 
 Find your API keys in the [Mollie dashboard](https://my.mollie.com/dashboard/) under **Developers**.
 
@@ -52,7 +54,7 @@ Optional surcharge added to the order grand total when the customer picks a fee-
 
 ### Method-specific groups
 
-Each of the 8 bundled methods (iDEAL, Bancontact, Credit Card, PayPal, Klarna Pay Later / Pay Now / Slice It, Apple Pay) has its own admin group with the usual active / title / country / sort-order controls plus optional status and fee overrides.
+Each of the 16 bundled methods (iDEAL, Bancontact, Credit Card, PayPal, Klarna Pay Later / Pay Now / Slice It, Apple Pay, Bank Transfer, SEPA Direct Debit, Gift Card, iDEAL in3, Riverty, Google Pay, Trustly) has its own admin group with the usual active / title / country / sort-order controls plus optional status and fee overrides.
 
 ## Roadmap
 
@@ -60,7 +62,6 @@ Each of the 8 bundled methods (iDEAL, Bancontact, Credit Card, PayPal, Klarna Pa
 - [x] Payments API integration (create, webhook, return, cron reconciliation, refunds)
 - [ ] Orders API integration (Klarna line items, in3, Billie, Alma, Riverty, Voucher categorisation)
 - [ ] Apple Pay express checkout (domain association + JS button)
-- [ ] Google Pay
 
 ### Payment methods
 - [x] iDEAL
@@ -71,11 +72,16 @@ Each of the 8 bundled methods (iDEAL, Bancontact, Credit Card, PayPal, Klarna Pa
 - [x] Klarna Pay Now (Payments API — Orders API pending)
 - [x] Klarna Slice It (Payments API — Orders API pending)
 - [x] Apple Pay (redirect — express button pending)
+- [x] Bank Transfer
+- [x] SEPA Direct Debit
+- [x] Gift Card
+- [x] iDEAL in3
+- [x] Riverty (redirect — full line-item detail pending Orders API)
+- [x] Google Pay
+- [x] Trustly
 - [ ] SOFORT Banking
-- [ ] SEPA Direct Debit
-- [ ] Google Pay
 - [ ] Przelewy24
-- [ ] KBC / Belfius / EPS / Giftcard / Bank transfer / Voucher / Trustly / ... (long tail)
+- [ ] KBC / Belfius / EPS / Voucher / ... (long tail)
 
 ### Features
 - [x] Full + partial refunds from admin (online refunds via Mollie API)
@@ -85,6 +91,9 @@ Each of the 8 bundled methods (iDEAL, Bancontact, Credit Card, PayPal, Klarna Pa
 - [x] Payment fee (fixed / percent / combined, per-method opt-in)
 - [x] External-refund and chargeback reconciliation (creditmemo from Mollie dashboard refunds; chargeback order comments)
 - [x] Multi-store API key scoping
+- [x] Admin "Test API Key" button (one-click connectivity check)
+- [x] Debug logging toggle (gates info-level entries in `mollie.log`)
+- [x] Translations for Dutch, German, French, Italian, and Spanish
 - [ ] Multi-currency support (code paths present but not verified end-to-end)
 - [ ] Second-chance payment email
 - [ ] Vault / stored cards
