@@ -90,10 +90,20 @@ Configurable in admin but not functional without further work (labels end with "
 - [ ] iDEAL in3 — needs Orders API
 - [ ] Riverty — needs Orders API
 
-Not bundled at all:
-- [ ] SOFORT Banking
-- [ ] Przelewy24
-- [ ] KBC / Belfius / EPS / Voucher / ... (long tail)
+Not bundled at all (Mollie supports them; this module has no method block, model, or config):
+- [ ] TWINT (Switzerland)
+- [ ] BLIK (Poland)
+- [ ] Przelewy24 (Poland)
+- [ ] EPS (Austria)
+- [ ] KBC / CBC (Belgium)
+- [ ] Belfius (Belgium)
+- [ ] Bizum (Spain)
+- [ ] MyBank (Italy)
+- [ ] Satispay (Italy)
+- [ ] Multibanco (Portugal)
+- [ ] Voucher (meal-voucher schemes — Edenred, Sodexo, etc.)
+- [ ] Alma, Billie, Pay by Bank, POS, and other long-tail methods
+- [ ] SOFORT Banking (deprecated by Mollie — listed for completeness)
 
 ### Features
 - [x] Online refunds from admin via Mollie API (full + partial — but partial refunds forward Maho's amount verbatim, no fee-aware logic)
