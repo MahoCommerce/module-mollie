@@ -144,6 +144,31 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Return all payment method codes whose model is provided by this module.
+     *
+     * Used to scope webhook / cron order lookups to Mollie-paid orders without
+     * hardcoding the list. Reads `default/payment/<code>/model` from the global
+     * config so newly registered method blocks are picked up automatically.
+     *
+     * @return list<string>
+     */
+    public function getMollieMethodCodes(): array
+    {
+        $codes = [];
+        $node = Mage::getConfig()->getNode('default/payment');
+        if (!$node instanceof \SimpleXMLElement) {
+            return $codes;
+        }
+        foreach ($node->children() as $code => $methodNode) {
+            $model = (string) ($methodNode->model ?? '');
+            if (str_starts_with($model, 'maho_mollie/method_')) {
+                $codes[] = (string) $code;
+            }
+        }
+        return $codes;
+    }
+
+    /**
      * Whether the Mollie payment fee is active for the given method + store.
      *
      * Returns true only when both:

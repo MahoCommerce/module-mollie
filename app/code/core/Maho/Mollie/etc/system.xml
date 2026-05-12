@@ -672,7 +672,7 @@
                 </mollie_paypal>
 
                 <mollie_klarnapaylater translate="label">
-                    <label>Mollie - Klarna Pay later</label>
+                    <label>Mollie - Klarna Pay later (not implemented yet)</label>
                     <sort_order>308</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -766,7 +766,7 @@
                 </mollie_klarnapaylater>
 
                 <mollie_klarnapaynow translate="label">
-                    <label>Mollie - Klarna Pay now</label>
+                    <label>Mollie - Klarna Pay now (not implemented yet)</label>
                     <sort_order>309</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -860,7 +860,7 @@
                 </mollie_klarnapaynow>
 
                 <mollie_klarnasliceit translate="label">
-                    <label>Mollie - Klarna Slice it</label>
+                    <label>Mollie - Klarna Slice it (not implemented yet)</label>
                     <sort_order>310</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -954,7 +954,7 @@
                 </mollie_klarnasliceit>
 
                 <mollie_applepay translate="label">
-                    <label>Mollie - Apple Pay</label>
+                    <label>Mollie - Apple Pay (not implemented yet)</label>
                     <sort_order>311</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -1330,7 +1330,7 @@
                 </mollie_giftcard>
 
                 <mollie_in3 translate="label">
-                    <label>Mollie - iDEAL in3</label>
+                    <label>Mollie - iDEAL in3 (not implemented yet)</label>
                     <sort_order>315</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -1424,7 +1424,7 @@
                 </mollie_in3>
 
                 <mollie_riverty translate="label">
-                    <label>Mollie - Riverty</label>
+                    <label>Mollie - Riverty (not implemented yet)</label>
                     <sort_order>316</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

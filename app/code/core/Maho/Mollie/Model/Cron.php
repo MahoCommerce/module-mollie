@@ -20,6 +20,13 @@ class Maho_Mollie_Model_Cron
      */
     public function checkPendingPayments(): void
     {
+        /** @var Maho_Mollie_Helper_Data $helper */
+        $helper = Mage::helper('maho_mollie');
+        $methodCodes = $helper->getMollieMethodCodes();
+        if ($methodCodes === []) {
+            return;
+        }
+
         $orders = Mage::getModel('sales/order')->getCollection()
             ->addFieldToFilter('state', Mage_Sales_Model_Order::STATE_PENDING_PAYMENT)
             // TODO: switch to Mage::app()->getLocale()->formatDateForDb('-24 hours') once Maho 26.5+ is the minimum.
@@ -31,7 +38,7 @@ class Maho_Mollie_Model_Cron
             'payment.parent_id = main_table.entity_id',
             [],
         );
-        $orders->getSelect()->where('payment.method = ?', 'mollie');
+        $orders->getSelect()->where('payment.method IN (?)', $methodCodes);
 
         foreach ($orders as $order) {
             try {

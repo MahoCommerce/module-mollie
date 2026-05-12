@@ -67,6 +67,13 @@ class Maho_Mollie_WebhookController extends Mage_Core_Controller_Front_Action
 
     protected function _findOrderByMolliePaymentId(string $paymentId): ?Mage_Sales_Model_Order
     {
+        /** @var Maho_Mollie_Helper_Data $helper */
+        $helper = Mage::helper('maho_mollie');
+        $methodCodes = $helper->getMollieMethodCodes();
+        if ($methodCodes === []) {
+            return null;
+        }
+
         $resource = Mage::getSingleton('core/resource');
         $paymentTable = $resource->getTableName('sales/order_payment');
 
@@ -77,7 +84,7 @@ class Maho_Mollie_WebhookController extends Mage_Core_Controller_Front_Action
             'payment.parent_id = main_table.entity_id',
             [],
         );
-        $collection->getSelect()->where('payment.method = ?', 'mollie');
+        $collection->getSelect()->where('payment.method IN (?)', $methodCodes);
         $collection->getSelect()->where(
             'payment.additional_information LIKE ?',
             '%' . $paymentId . '%',
