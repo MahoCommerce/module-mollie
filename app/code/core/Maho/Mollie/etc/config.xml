@@ -125,10 +125,6 @@
                 <api_key_test backend_model="adminhtml/system_config_backend_encrypted"/>
                 <debug>0</debug>
             </credentials>
-            <statuses>
-                <order_status_pending>pending_payment</order_status_pending>
-                <order_status_processing>processing</order_status_processing>
-            </statuses>
             <payment_fee>
                 <fee_type>disabled</fee_type>
                 <fee_fixed>0</fee_fixed>
@@ -147,6 +143,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>100</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie>
             <mollie_ideal>
                 <active>0</active>
@@ -156,6 +154,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>101</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_ideal>
             <mollie_bancontact>
                 <active>0</active>
@@ -165,6 +165,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>102</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_bancontact>
             <mollie_creditcard>
                 <active>0</active>
@@ -174,6 +176,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>103</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_creditcard>
             <mollie_paypal>
                 <active>0</active>
@@ -183,6 +187,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>104</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_paypal>
             <mollie_klarnapaylater>
                 <active>0</active>
@@ -192,6 +198,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>105</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_klarnapaylater>
             <mollie_klarnapaynow>
                 <active>0</active>
@@ -201,6 +209,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>106</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_klarnapaynow>
             <mollie_klarnasliceit>
                 <active>0</active>
@@ -210,6 +220,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>107</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_klarnasliceit>
             <mollie_applepay>
                 <active>0</active>
@@ -219,6 +231,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>108</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_applepay>
             <mollie_banktransfer>
                 <active>0</active>
@@ -228,6 +242,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>109</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_banktransfer>
             <mollie_directdebit>
                 <active>0</active>
@@ -237,6 +253,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>110</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_directdebit>
             <mollie_giftcard>
                 <active>0</active>
@@ -246,6 +264,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>111</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_giftcard>
             <mollie_in3>
                 <active>0</active>
@@ -255,6 +275,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>112</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_in3>
             <mollie_riverty>
                 <active>0</active>
@@ -264,6 +286,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>113</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_riverty>
             <mollie_googlepay>
                 <active>0</active>
@@ -273,6 +297,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>114</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_googlepay>
             <mollie_trustly>
                 <active>0</active>
@@ -282,6 +308,8 @@
                 <allowspecific>0</allowspecific>
                 <sort_order>115</sort_order>
                 <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
             </mollie_trustly>
         </payment>
     </default>

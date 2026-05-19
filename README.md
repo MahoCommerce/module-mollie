@@ -49,17 +49,13 @@ Navigate to **System > Configuration > Payment Methods** in the Maho admin panel
 
 Find your API keys in the [Mollie dashboard](https://my.mollie.com/dashboard/) under **Developers**.
 
-### Order statuses (Mollie - Order Statuses)
-
-Configurable codes applied when Mollie reports pending / paid, with optional per-method overrides on each method group.
-
 ### Payment fee (Mollie - Payment Fee)
 
 Optional surcharge added to the order grand total when the customer picks a fee-enabled Mollie method. Supports fixed, percent, or combined fees, with per-method opt-in.
 
 ### Method-specific groups
 
-Each of the 16 bundled methods has its own admin group with the usual active / title / country / sort-order controls plus optional status and fee overrides. Method blocks whose label ends with **"(not implemented yet)"** can be saved/configured but will not produce a working checkout — the module either lacks the Orders API plumbing they need (Klarna ×3, iDEAL in3, Riverty) or is missing a non-redirect flow (Apple Pay express button — note that Apple Pay *via redirect* does work).
+Each of the 16 bundled methods has its own admin group with the usual active / title / country / sort-order controls plus per-method pending / processing order statuses and an optional fee override. Method blocks whose label ends with **"(not implemented yet)"** can be saved/configured but will not produce a working checkout — the module either lacks the Orders API plumbing they need (Klarna ×3, iDEAL in3, Riverty) or is missing a non-redirect flow (Apple Pay express button — note that Apple Pay *via redirect* does work).
 
 ## Roadmap
 
@@ -109,7 +105,7 @@ Not bundled at all (Mollie supports them; this module has no method block, model
 - [x] Online refunds from admin via Mollie API (full + partial — but partial refunds forward Maho's amount verbatim, no fee-aware logic)
 - [x] Webhook-driven payment status reconciliation (all `mollie_*` method codes, not just the generic gateway)
 - [x] Cron-based safety net for missed webhooks (5-minute interval, 24-hour lookback)
-- [x] Admin-configurable pending / processing order statuses (global + per-method override)
+- [x] Admin-configurable pending / processing order statuses, per payment method
 - [x] Payment-fee surcharge in checkout (fixed / percent / combined, per-method opt-in)
 - [x] External-refund and chargeback reconciliation (creditmemo from Mollie dashboard refunds; chargeback order comments only)
 - [x] Multi-store API key scoping

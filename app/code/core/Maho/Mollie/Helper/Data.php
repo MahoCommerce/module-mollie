@@ -100,46 +100,27 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Status code applied while the customer is at the Mollie checkout.
-     *
-     * Honors the per-method override first, then the global setting, with a
-     * hard-coded fallback of 'pending_payment' so a bad/missing config can
-     * never produce an empty status.
+     * Falls back to 'pending_payment' if the method config is missing.
      */
     public function getPendingStatus(?int $storeId = null, ?string $methodCode = null): string
     {
-        if ($methodCode !== null && $methodCode !== '') {
-            $override = (string) Mage::getStoreConfig(
-                'payment/' . $methodCode . '/order_status_pending_override',
-                $storeId,
-            );
-            if ($override !== '') {
-                return $override;
-            }
+        if ($methodCode === null || $methodCode === '') {
+            return 'pending_payment';
         }
-
-        $status = (string) Mage::getStoreConfig('maho_mollie/statuses/order_status_pending', $storeId);
+        $status = (string) Mage::getStoreConfig('payment/' . $methodCode . '/order_status_pending', $storeId);
         return $status !== '' ? $status : 'pending_payment';
     }
 
     /**
      * Status code applied after Mollie reports a paid/authorized capture.
-     *
-     * Honors the per-method override first, then the global setting, with a
-     * hard-coded fallback of 'processing'.
+     * Falls back to 'processing' if the method config is missing.
      */
     public function getProcessingStatus(?int $storeId = null, ?string $methodCode = null): string
     {
-        if ($methodCode !== null && $methodCode !== '') {
-            $override = (string) Mage::getStoreConfig(
-                'payment/' . $methodCode . '/order_status_processing_override',
-                $storeId,
-            );
-            if ($override !== '') {
-                return $override;
-            }
+        if ($methodCode === null || $methodCode === '') {
+            return 'processing';
         }
-
-        $status = (string) Mage::getStoreConfig('maho_mollie/statuses/order_status_processing', $storeId);
+        $status = (string) Mage::getStoreConfig('payment/' . $methodCode . '/order_status_processing', $storeId);
         return $status !== '' ? $status : 'processing';
     }
 
