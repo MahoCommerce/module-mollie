@@ -317,6 +317,17 @@
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_trustly>
+            <mollie_twint>
+                <active>0</active>
+                <model>maho_mollie/method_twint</model>
+                <title>TWINT</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>116</sort_order>
+                <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
+            </mollie_twint>
         </payment>
     </default>
 </config>
