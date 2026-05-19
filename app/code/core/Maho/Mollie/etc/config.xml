@@ -65,6 +65,12 @@
                 </observers>
             </sales_model_service_quote_submit_before>
         </events>
+
+        <payment>
+            <groups>
+                <mollie>Mollie</mollie>
+            </groups>
+        </payment>
     </global>
 
     <crontab>
