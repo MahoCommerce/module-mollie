@@ -14,6 +14,8 @@ class Maho_Mollie_Model_Method_Directdebit extends Maho_Mollie_Model_Method_Stan
 {
     protected $_code = 'mollie_directdebit';
 
+    protected ?string $_requiredCurrency = 'EUR';
+
     #[\Override]
     protected function getMollieMethodCode(): ?string
     {

@@ -14,6 +14,8 @@ class Maho_Mollie_Model_Method_Bancontact extends Maho_Mollie_Model_Method_Stand
 {
     protected $_code = 'mollie_bancontact';
 
+    protected ?string $_requiredCurrency = 'EUR';
+
     #[\Override]
     protected function getMollieMethodCode(): ?string
     {

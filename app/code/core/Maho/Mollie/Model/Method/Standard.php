@@ -17,6 +17,13 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     protected $_formBlockType = 'maho_mollie/form';
     protected $_infoBlockType = 'maho_mollie/info';
 
+    /**
+     * If set, the method only becomes available when the quote currency matches.
+     * Mollie rejects single-currency methods at the API with 422, so we guard
+     * earlier in checkout. Subclasses declare their constraint (e.g. EUR, CHF).
+     */
+    protected ?string $_requiredCurrency = null;
+
     protected $_isGateway = true;
     protected $_canAuthorize = false;
     protected $_canCapture = true;
@@ -32,6 +39,12 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     public function isAvailable($quote = null): bool
     {
         if (!$this->_getMollieHelper()->hasCredentials($quote?->getStoreId())) {
+            return false;
+        }
+        if ($this->_requiredCurrency !== null
+            && $quote !== null
+            && strtoupper((string) $quote->getQuoteCurrencyCode()) !== $this->_requiredCurrency
+        ) {
             return false;
         }
         return parent::isAvailable($quote);

@@ -52,6 +52,8 @@
 "Mollie refund %s (%s %s) was initiated outside Maho — offline credit memo created.","Mollie-terugbetaling %s (%s %s) is buiten Maho gestart — offline creditnota aangemaakt."
 "Mollie refund failed for order #%s: %s","Mollie-terugbetaling mislukt voor bestelling #%s: %s"
 "No Mollie API key is configured. Enter a key (or save one) and try again.","Er is geen Mollie API-sleutel geconfigureerd. Voer een sleutel in (of bewaar er een) en probeer het opnieuw."
+"Only available at checkout when the quote currency is CHF; hidden otherwise.","Alleen beschikbaar in de checkout wanneer de offertevaluta CHF is; anders verborgen."
+"Only available at checkout when the quote currency is EUR; hidden otherwise.","Alleen beschikbaar in de checkout wanneer de offertevaluta EUR is; anders verborgen."
 "Order #%s","Bestelling #%s"
 "Order status set to ""%s"" per Mollie configuration.","Bestelstatus ingesteld op ""%s"" volgens Mollie-configuratie."
 "Paid (processing) order status","Betaalde (verwerking) bestelstatus"

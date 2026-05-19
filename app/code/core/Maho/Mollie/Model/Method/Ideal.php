@@ -14,6 +14,8 @@ class Maho_Mollie_Model_Method_Ideal extends Maho_Mollie_Model_Method_Standard
 {
     protected $_code = 'mollie_ideal';
 
+    protected ?string $_requiredCurrency = 'EUR';
+
     #[\Override]
     protected function getMollieMethodCode(): ?string
     {

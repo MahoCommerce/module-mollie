@@ -14,6 +14,8 @@ class Maho_Mollie_Model_Method_Twint extends Maho_Mollie_Model_Method_Standard
 {
     protected $_code = 'mollie_twint';
 
+    protected ?string $_requiredCurrency = 'CHF';
+
     #[\Override]
     protected function getMollieMethodCode(): ?string
     {

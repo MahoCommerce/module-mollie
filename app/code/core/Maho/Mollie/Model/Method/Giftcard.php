@@ -15,6 +15,8 @@ class Maho_Mollie_Model_Method_Giftcard extends Maho_Mollie_Model_Method_Standar
 {
     protected $_code = 'mollie_giftcard';
 
+    protected ?string $_requiredCurrency = 'EUR';
+
     #[\Override]
     protected function getMollieMethodCode(): ?string
     {

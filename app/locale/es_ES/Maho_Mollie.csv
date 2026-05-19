@@ -52,6 +52,8 @@
 "Mollie refund %s (%s %s) was initiated outside Maho — offline credit memo created.","El reembolso Mollie %s (%s %s) se inició fuera de Maho — abono offline creado."
 "Mollie refund failed for order #%s: %s","El reembolso de Mollie ha fallado para el pedido n.º %s: %s"
 "No Mollie API key is configured. Enter a key (or save one) and try again.","No hay ninguna clave API de Mollie configurada. Introduzca una clave (o guárdela) y vuelva a intentarlo."
+"Only available at checkout when the quote currency is CHF; hidden otherwise.","Solo disponible en el checkout cuando la moneda del presupuesto es CHF; oculto en caso contrario."
+"Only available at checkout when the quote currency is EUR; hidden otherwise.","Solo disponible en el checkout cuando la moneda del presupuesto es EUR; oculto en caso contrario."
 "Order #%s","Pedido n.º %s"
 "Order status set to ""%s"" per Mollie configuration.","Estado del pedido establecido en ""%s"" según la configuración de Mollie."
 "Paid (processing) order status","Estado del pedido pagado (en proceso)"
