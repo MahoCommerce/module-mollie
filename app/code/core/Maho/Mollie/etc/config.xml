@@ -205,39 +205,6 @@
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paypal>
-            <mollie_klarnapaylater>
-                <active>0</active>
-                <model>maho_mollie/method_klarnapaylater</model>
-                <title>Klarna - Pay later</title>
-                <group>mollie</group>
-                <allowspecific>0</allowspecific>
-                <sort_order>105</sort_order>
-                <fee_enabled>0</fee_enabled>
-                <order_status_pending>pending_payment</order_status_pending>
-                <order_status_processing>processing</order_status_processing>
-            </mollie_klarnapaylater>
-            <mollie_klarnapaynow>
-                <active>0</active>
-                <model>maho_mollie/method_klarnapaynow</model>
-                <title>Klarna - Pay now</title>
-                <group>mollie</group>
-                <allowspecific>0</allowspecific>
-                <sort_order>106</sort_order>
-                <fee_enabled>0</fee_enabled>
-                <order_status_pending>pending_payment</order_status_pending>
-                <order_status_processing>processing</order_status_processing>
-            </mollie_klarnapaynow>
-            <mollie_klarnasliceit>
-                <active>0</active>
-                <model>maho_mollie/method_klarnasliceit</model>
-                <title>Klarna - Slice it</title>
-                <group>mollie</group>
-                <allowspecific>0</allowspecific>
-                <sort_order>107</sort_order>
-                <fee_enabled>0</fee_enabled>
-                <order_status_pending>pending_payment</order_status_pending>
-                <order_status_processing>processing</order_status_processing>
-            </mollie_klarnasliceit>
             <mollie_applepay>
                 <active>0</active>
                 <model>maho_mollie/method_applepay</model>
@@ -282,28 +249,6 @@
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_giftcard>
-            <mollie_in3>
-                <active>0</active>
-                <model>maho_mollie/method_in3</model>
-                <title>iDEAL in3</title>
-                <group>mollie</group>
-                <allowspecific>0</allowspecific>
-                <sort_order>112</sort_order>
-                <fee_enabled>0</fee_enabled>
-                <order_status_pending>pending_payment</order_status_pending>
-                <order_status_processing>processing</order_status_processing>
-            </mollie_in3>
-            <mollie_riverty>
-                <active>0</active>
-                <model>maho_mollie/method_riverty</model>
-                <title>Riverty</title>
-                <group>mollie</group>
-                <allowspecific>0</allowspecific>
-                <sort_order>113</sort_order>
-                <fee_enabled>0</fee_enabled>
-                <order_status_pending>pending_payment</order_status_pending>
-                <order_status_processing>processing</order_status_processing>
-            </mollie_riverty>
             <mollie_googlepay>
                 <active>0</active>
                 <model>maho_mollie/method_googlepay</model>

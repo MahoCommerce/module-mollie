@@ -8,7 +8,7 @@
 
 Accept payments through [Mollie](https://www.mollie.com), one of Europe's leading payment service providers — offering 40+ payment methods across the Payments API and the Orders API (for Klarna and other Buy Now Pay Later methods).
 
-> **Status: Beta — unverified against a live Mollie sandbox.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, plus online refunds, admin-configurable order statuses, and a payment-fee surcharge that shows in checkout. 33 method blocks are configurable in admin — **28 should work end-to-end via redirect** (the generic Mollie selector plus the per-method blocks listed below), while the remaining **5 are flagged "(not implemented yet)"** in their admin labels: Klarna Pay later / Pay now / Slice it, iDEAL in3, and Riverty all require the Orders API (not yet wired) to send `orderLines`. Apple Pay's express-checkout button (cart/PDP) is also not implemented, though Apple Pay via redirect works. Translations ship for Dutch, German, French, Italian, and Spanish.
+> **Status: Beta — redirect flow verified against the Mollie sandbox.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, plus online refunds, admin-configurable order statuses, and a payment-fee surcharge that shows in checkout. 28 method blocks are configurable in admin and all of them work end-to-end via redirect (the generic Mollie selector plus the per-method blocks listed below). Apple Pay's express-checkout button (cart/PDP) is not yet implemented, though Apple Pay via redirect works. Translations ship for Dutch, German, French, Italian, and Spanish.
 >
 > **Known gaps you'll hit in real testing:**
 > - The payment fee is added to the cart grand total but **not propagated to the invoice or credit memo** (DB columns exist; nothing populates them). The fee is also not rendered on order/invoice/creditmemo views — the module ships zero layout XML or phtml templates.
@@ -55,7 +55,7 @@ Optional surcharge added to the order grand total when the customer picks a fee-
 
 ### Method-specific groups
 
-Each of the 33 bundled methods has its own admin group with the usual active / title / country / sort-order controls plus per-method pending / processing order statuses and an optional fee override. Method blocks whose label ends with **"(not implemented yet)"** can be saved/configured but will not produce a working checkout — the module either lacks the Orders API plumbing they need (Klarna ×3, iDEAL in3, Riverty) or is missing a non-redirect flow (Apple Pay express button — note that Apple Pay *via redirect* does work).
+Each of the 28 bundled methods has its own admin group with the usual active / title / country / sort-order controls plus per-method pending / processing order statuses and an optional fee override.
 
 ## Roadmap
 
@@ -96,14 +96,10 @@ Working end-to-end via redirect (Mollie hosts the actual UI):
 - [x] Pay by Bank (UK)
 - [x] paysafecard
 
-Configurable in admin but not functional without further work (labels end with "(not implemented yet)"):
-- [ ] Klarna Pay Later — needs Orders API (`orderLines`)
-- [ ] Klarna Pay Now — needs Orders API
-- [ ] Klarna Slice It — needs Orders API
+Not bundled at all (Mollie supports them; this module has no method block, model, or config):
+- [ ] Klarna Pay Later / Pay Now / Slice It — need the Orders API to send `orderLines`
 - [ ] iDEAL in3 — needs Orders API
 - [ ] Riverty — needs Orders API
-
-Not bundled at all (Mollie supports them; this module has no method block, model, or config):
 - [ ] KBC / CBC (Belgium) — needs issuer selection
 - [ ] Voucher (meal-voucher schemes — Edenred, Sodexo, etc.) — needs per-product category mapping
 - [ ] Alma, Billie — BNPL, need the Orders API
