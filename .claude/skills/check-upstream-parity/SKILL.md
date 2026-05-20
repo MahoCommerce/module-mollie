@@ -11,8 +11,8 @@ This module is a Maho / Mage1-style port. Upstream is a Magento 2 module. Mappin
 
 | Upstream (M2)                             | Here (Maho / Mage1)                           |
 |-------------------------------------------|-----------------------------------------------|
-| `etc/config.xml`, `etc/payment.xml`       | `app/code/core/Maho/Mollie/etc/config.xml`    |
-| `etc/adminhtml/system.xml`                | `app/code/core/Maho/Mollie/etc/system.xml`    |
+| `etc/config.xml`, `etc/payment.xml`       | `app/code/community/Maho/Mollie/etc/config.xml` |
+| `etc/adminhtml/system.xml`                | `app/code/community/Maho/Mollie/etc/system.xml` |
 | `Model/Client/Payments/*`, `Orders/*`     | `Model/Method/*.php`                          |
 | `Controller/Checkout/*`                   | `controllers/*`                               |
 | `Plugin/*`, `Observer/*` (events.xml)     | `config.xml <events>` + `Model/Observer.php`  |
@@ -38,11 +38,11 @@ Record the upstream commit hash in the report so we know the baseline.
 
 ## Step 2 — enumerate features on both sides, category by category
 
-Work through each category below. For each one: list what upstream has, list what we have, mark the delta. Use Glob/Grep on `$UPSTREAM` and on `app/code/core/Maho/Mollie/`.
+Work through each category below. For each one: list what upstream has, list what we have, mark the delta. Use Glob/Grep on `$UPSTREAM` and on `app/code/community/Maho/Mollie/`.
 
 ### A. Payment methods
 - **Upstream source of truth:** `etc/config.xml` under `<payment>` (each `<mollie_methods_*>` node). Cross-check with `Model/Methods/` (or `Service/Mollie/MethodCodes.php` in recent versions) and with `Mollie/Subscriptions`, `Mollie/B2B`, `Mollie/Klarna` if vendored.
-- **Here:** `<payment>` section of `app/code/core/Maho/Mollie/etc/config.xml` and files under `Model/Method/`.
+- **Here:** `<payment>` section of `app/code/community/Maho/Mollie/etc/config.xml` and files under `Model/Method/`.
 - List every upstream method code and check presence locally. Note per-method capabilities: `can_refund`, `can_refund_partial_per_invoice`, `can_capture`, `can_void`, `can_use_for_multishipping`, `is_gateway`, min/max order total, allowed countries, currency constraints.
 
 ### B. Admin configuration (system.xml)

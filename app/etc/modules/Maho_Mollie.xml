@@ -12,7 +12,7 @@
     <modules>
         <Maho_Mollie>
             <active>true</active>
-            <codePool>core</codePool>
+            <codePool>community</codePool>
             <depends>
                 <Mage_Payment/>
                 <Mage_Sales/>
