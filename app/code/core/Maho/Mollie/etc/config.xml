@@ -112,6 +112,13 @@
             <maho_mollie_payment>/mollie/payment</maho_mollie_payment>
             <maho_mollie_webhook>/mollie/webhook</maho_mollie_webhook>
         </secure_url>
+        <layout>
+            <updates>
+                <maho_mollie>
+                    <file>maho_mollie.xml</file>
+                </maho_mollie>
+            </updates>
+        </layout>
         <translate>
             <modules>
                 <Maho_Mollie>
@@ -184,6 +191,8 @@
                 <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
+                <use_components>0</use_components>
+                <profile_id/>
             </mollie_creditcard>
             <mollie_paypal>
                 <active>0</active>

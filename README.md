@@ -70,7 +70,7 @@ Working end-to-end via redirect (Mollie hosts the actual UI):
 - [x] Generic Mollie gateway (Mollie's full method picker)
 - [x] iDEAL
 - [x] Bancontact
-- [x] Credit card (redirect; Mollie Components / hosted fields not yet)
+- [x] Credit card (redirect by default; Mollie Components hosted card fields available — toggle "Use Mollie Components" + Profile ID in admin)
 - [x] PayPal
 - [x] Apple Pay (redirect only — express button on cart/PDP not yet)
 - [x] Bank Transfer
@@ -128,7 +128,7 @@ Not bundled at all (Mollie supports them; this module has no method block, model
 - [ ] Multi-currency support (code paths present but not verified end-to-end)
 - [ ] Second-chance payment email
 - [ ] Vault / stored cards
-- [ ] Mollie Components (hosted card fields)
+- [x] Mollie Components (hosted card fields) — opt-in per store via admin
 - [ ] Payment-link generation from admin
 - [ ] Shipment push to Mollie (Orders API)
 

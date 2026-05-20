@@ -1,0 +1,59 @@
+<?php
+/**
+ * Maho
+ *
+ * @package    Maho_Mollie
+ * @copyright  Copyright (c) 2026 Maho (https://mahocommerce.com)
+ * @license    https://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/** @var Maho_Mollie_Block_Form_Creditcard $this */
+$code = $this->getMethodCode();
+?>
+<?php if ($this->isComponentsEnabled()): ?>
+<fieldset class="form-list mollie-components"
+          id="payment_form_<?= $this->quoteEscape($code) ?>"
+          data-mollie-profile-id="<?= $this->quoteEscape($this->getProfileId()) ?>"
+          data-mollie-testmode="<?= $this->isTestMode() ? 'true' : 'false' ?>"
+          data-mollie-locale="<?= $this->quoteEscape($this->getMollieLocale()) ?>"
+          style="display:none;">
+    <ul class="form-list">
+        <li>
+            <label for="mollie-card-holder" class="required"><?= $this->__('Cardholder name') ?></label>
+            <div id="mollie-card-holder" class="mollie-component input-text"></div>
+            <div id="mollie-card-holder-error" class="mollie-component-error validation-advice" role="alert"></div>
+        </li>
+        <li>
+            <label for="mollie-card-number" class="required"><?= $this->__('Card number') ?></label>
+            <div id="mollie-card-number" class="mollie-component input-text"></div>
+            <div id="mollie-card-number-error" class="mollie-component-error validation-advice" role="alert"></div>
+        </li>
+        <li class="fields">
+            <div class="field">
+                <label for="mollie-expiry-date" class="required"><?= $this->__('Expiry date') ?></label>
+                <div id="mollie-expiry-date" class="mollie-component input-text"></div>
+                <div id="mollie-expiry-date-error" class="mollie-component-error validation-advice" role="alert"></div>
+            </div>
+            <div class="field">
+                <label for="mollie-verification-code" class="required"><?= $this->__('CVC') ?></label>
+                <div id="mollie-verification-code" class="mollie-component input-text"></div>
+                <div id="mollie-verification-code-error" class="mollie-component-error validation-advice" role="alert"></div>
+            </div>
+        </li>
+    </ul>
+    <input type="hidden" name="payment[mollie_card_token]" id="mollie-card-token" value="">
+</fieldset>
+<style>
+    .mollie-components .mollie-component {
+        display: block;
+        width: 100%;
+        min-height: 2.4em;
+        padding: 0.4em 0.6em;
+        box-sizing: border-box;
+        background: #fff;
+    }
+    .mollie-components .mollie-component-error:empty {
+        display: none;
+    }
+</style>
+<?php endif; ?>

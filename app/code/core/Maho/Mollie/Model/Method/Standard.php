@@ -140,6 +140,14 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
                 $payload['method'] = $selectedMethod;
             }
 
+            // Subclasses can add method-specific fields (e.g. cardToken for
+            // Components, issuer for iDEAL). Returned keys take precedence over
+            // the generic payload above.
+            $extra = $this->getExtraPaymentPayload($order);
+            if ($extra !== []) {
+                $payload = array_merge($payload, $extra);
+            }
+
             $molliePayment = $client->payments->create($payload);
 
             $checkoutUrl = $molliePayment->getCheckoutUrl();
@@ -320,5 +328,19 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     protected function getMollieMethodCode(): ?string
     {
         return null;
+    }
+
+    /**
+     * Extra fields to merge into the Mollie Payments API create payload.
+     *
+     * Subclasses return method-specific keys such as `cardToken` (Components),
+     * `issuer` (iDEAL), or `billingEmail`. Returning an empty array (default)
+     * leaves the generic payload untouched and keeps the redirect flow.
+     *
+     * @return array<string, mixed>
+     */
+    protected function getExtraPaymentPayload(Mage_Sales_Model_Order $order): array
+    {
+        return [];
     }
 }

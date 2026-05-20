@@ -136,7 +136,11 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMollieMethodCodes(): array
     {
         $codes = [];
-        $node = Mage::getConfig()->getNode('default/payment');
+        $config = Mage::getConfig();
+        if ($config === null) {
+            return $codes;
+        }
+        $node = $config->getNode('default/payment');
         if (!$node instanceof \SimpleXMLElement) {
             return $codes;
         }

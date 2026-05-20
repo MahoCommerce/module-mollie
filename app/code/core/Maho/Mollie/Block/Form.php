@@ -10,6 +10,4 @@
 
 declare(strict_types=1);
 
-class Maho_Mollie_Block_Form extends Mage_Payment_Block_Form
-{
-}
+class Maho_Mollie_Block_Form extends Mage_Payment_Block_Form {}
