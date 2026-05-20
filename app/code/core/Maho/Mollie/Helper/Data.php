@@ -153,28 +153,4 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
         return $codes;
     }
 
-    /**
-     * Whether the Mollie payment fee is active for the given method + store.
-     *
-     * Returns true only when both:
-     *   - payment/<methodCode>/fee_enabled is truthy, AND
-     *   - maho_mollie/payment_fee/fee_type is not "disabled"/empty.
-     */
-    public function isPaymentFeeEnabledForMethod(?string $methodCode, ?int $storeId = null): bool
-    {
-        if ($methodCode === null || $methodCode === '') {
-            return false;
-        }
-
-        if (!Mage::getStoreConfigFlag('payment/' . $methodCode . '/fee_enabled', $storeId)) {
-            return false;
-        }
-
-        $type = (string) Mage::getStoreConfig('maho_mollie/payment_fee/fee_type', $storeId);
-        if ($type === '' || $type === Maho_Mollie_Model_System_Config_Source_PaymentFee_Type::TYPE_DISABLED) {
-            return false;
-        }
-
-        return true;
-    }
 }

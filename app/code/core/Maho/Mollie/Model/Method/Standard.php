@@ -118,8 +118,7 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
                 'redirectUrl' => $helper->getReturnUrl($storeId),
                 'webhookUrl'  => $helper->getWebhookUrl($storeId),
                 'metadata'    => [
-                    'order_id'    => $order->getIncrementId(),
-                    'payment_fee' => $helper->formatAmount((float) $order->getPaymentFeeAmount()),
+                    'order_id' => $order->getIncrementId(),
                 ],
                 'locale' => $helper->getLocale($storeId),
             ];

@@ -34,38 +34,6 @@
             </maho_mollie>
         </helpers>
 
-        <resources>
-            <maho_mollie_setup>
-                <setup>
-                    <module>Maho_Mollie</module>
-                    <class>Mage_Sales_Model_Resource_Setup</class>
-                </setup>
-            </maho_mollie_setup>
-        </resources>
-
-        <sales>
-            <quote>
-                <totals>
-                    <payment_fee>
-                        <class>maho_mollie/quote_address_total_paymentFee</class>
-                        <after>subtotal,shipping,tax,discount</after>
-                        <before>grand_total</before>
-                    </payment_fee>
-                </totals>
-            </quote>
-        </sales>
-
-        <events>
-            <sales_model_service_quote_submit_before>
-                <observers>
-                    <maho_mollie_copy_payment_fee>
-                        <class>maho_mollie/observer</class>
-                        <method>copyPaymentFeeToOrder</method>
-                    </maho_mollie_copy_payment_fee>
-                </observers>
-            </sales_model_service_quote_submit_before>
-        </events>
-
         <payment>
             <groups>
                 <mollie>Mollie</mollie>
@@ -138,14 +106,6 @@
                 <api_key_test backend_model="adminhtml/system_config_backend_encrypted"/>
                 <debug>0</debug>
             </credentials>
-            <payment_fee>
-                <fee_type>disabled</fee_type>
-                <fee_fixed>0</fee_fixed>
-                <fee_percent>0</fee_percent>
-                <fee_max></fee_max>
-                <include_shipping>0</include_shipping>
-                <include_discount>0</include_discount>
-            </payment_fee>
         </maho_mollie>
         <payment>
             <mollie>
@@ -155,7 +115,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>100</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie>
@@ -166,7 +125,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>101</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_ideal>
@@ -177,7 +135,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>102</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_bancontact>
@@ -188,7 +145,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>103</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
                 <use_components>0</use_components>
@@ -201,7 +157,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>104</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paypal>
@@ -212,7 +167,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>108</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_applepay>
@@ -223,7 +177,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>109</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_banktransfer>
@@ -234,7 +187,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>110</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_directdebit>
@@ -245,7 +197,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>111</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_giftcard>
@@ -256,7 +207,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>114</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_googlepay>
@@ -267,7 +217,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>115</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_trustly>
@@ -278,7 +227,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>116</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_twint>
@@ -289,7 +237,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>117</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_blik>
@@ -300,7 +247,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>118</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_przelewy24>
@@ -311,7 +257,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>119</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_eps>
@@ -322,7 +267,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>120</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_belfius>
@@ -333,7 +277,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>121</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_bizum>
@@ -344,7 +287,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>122</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_mybank>
@@ -355,7 +297,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>123</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_satispay>
@@ -366,7 +307,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>124</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_bancomatpay>
@@ -377,7 +317,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>125</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_multibanco>
@@ -388,7 +327,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>126</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_mbway>
@@ -399,7 +337,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>127</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_payconiq>
@@ -410,7 +347,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>128</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_mobilepay>
@@ -421,7 +357,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>129</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_swish>
@@ -432,7 +367,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>130</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_vipps>
@@ -443,7 +377,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>131</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paybybank>
@@ -454,7 +387,6 @@
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>132</sort_order>
-                <fee_enabled>0</fee_enabled>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paysafecard>

@@ -8,12 +8,9 @@
 
 Accept payments through [Mollie](https://www.mollie.com), one of Europe's leading payment service providers — offering 40+ payment methods across the Payments API and the Orders API (for Klarna and other Buy Now Pay Later methods).
 
-> **Status: Beta — redirect flow verified against the Mollie sandbox.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, plus online refunds, admin-configurable order statuses, and a payment-fee surcharge that shows in checkout. 28 method blocks are configurable in admin and all of them work end-to-end via redirect (the generic Mollie selector plus the per-method blocks listed below). Apple Pay's express-checkout button (cart/PDP) is not yet implemented, though Apple Pay via redirect works. Translations ship for Dutch, German, French, Italian, and Spanish.
+> **Status: Beta — redirect flow verified against the Mollie sandbox.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, plus online refunds and admin-configurable order statuses. 28 method blocks are configurable in admin and all of them work end-to-end via redirect (the generic Mollie selector plus the per-method blocks listed below). Apple Pay's express-checkout button (cart/PDP) is not yet implemented, though Apple Pay via redirect works. Translations ship for Dutch, German, French, Italian, and Spanish.
 >
-> **Known gaps you'll hit in real testing:**
-> - The payment fee is added to the cart grand total but **not propagated to the invoice or credit memo** (DB columns exist; nothing populates them). The fee is also not rendered on order/invoice/creditmemo views — the module ships zero layout XML or phtml templates.
-> - Refund amounts passed by Maho's creditmemo flow are forwarded to Mollie verbatim — there is no special handling to exclude the payment fee from a partial refund.
-> - The webhook re-fetches the payment from Mollie's API for verification, but there is no DB-level lock around the capture path; concurrent webhook redeliveries could race.
+> **Known gap:** the webhook re-fetches the payment from Mollie's API for verification, but there is no DB-level lock around the capture path; concurrent webhook redeliveries could race.
 
 ## Requirements
 
@@ -49,13 +46,9 @@ Navigate to **System > Configuration > Payment Methods** in the Maho admin panel
 
 Find your API keys in the [Mollie dashboard](https://my.mollie.com/dashboard/) under **Developers**.
 
-### Payment fee (Mollie - Payment Fee)
-
-Optional surcharge added to the order grand total when the customer picks a fee-enabled Mollie method. Supports fixed, percent, or combined fees, with per-method opt-in.
-
 ### Method-specific groups
 
-Each of the 28 bundled methods has its own admin group with the usual active / title / country / sort-order controls plus per-method pending / processing order statuses and an optional fee override.
+Each of the 28 bundled methods has its own admin group with the usual active / title / country / sort-order controls plus per-method pending / processing order statuses.
 
 ## Roadmap
 
@@ -107,19 +100,15 @@ Not bundled at all (Mollie supports them; this module has no method block, model
 - [ ] SOFORT Banking (deprecated by Mollie — listed for completeness)
 
 ### Features
-- [x] Online refunds from admin via Mollie API (full + partial — but partial refunds forward Maho's amount verbatim, no fee-aware logic)
+- [x] Online refunds from admin via Mollie API (full + partial)
 - [x] Webhook-driven payment status reconciliation (all `mollie_*` method codes, not just the generic gateway)
 - [x] Cron-based safety net for missed webhooks (5-minute interval, 24-hour lookback)
 - [x] Admin-configurable pending / processing order statuses, per payment method
-- [x] Payment-fee surcharge in checkout (fixed / percent / combined, per-method opt-in)
 - [x] External-refund and chargeback reconciliation (creditmemo from Mollie dashboard refunds; chargeback order comments only)
 - [x] Multi-store API key scoping
 - [x] Admin "Test API Key" button (one-click connectivity check)
 - [x] Debug logging toggle (gates info-level entries in `var/log/mollie.log`)
 - [x] Translations for Dutch, German, French, Italian, and Spanish
-- [ ] Payment fee carried into invoice and credit memo records (DB columns exist, no code populates them)
-- [ ] Payment fee rendered on order / invoice / credit memo / "My Orders" / order email / PDF (no layout XML or templates ship)
-- [ ] Tax on the payment fee (`fee_tax_class` is stored but no tax collector applies it)
 - [ ] DB-level idempotency lock on the capture path (today only an in-memory `hasInvoices()` check)
 - [ ] Multi-currency support (code paths present but not verified end-to-end)
 - [ ] Second-chance payment email
