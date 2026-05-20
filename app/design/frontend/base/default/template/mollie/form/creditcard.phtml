@@ -11,48 +11,56 @@
 $code = $this->getMethodCode();
 ?>
 <?php if ($this->isComponentsEnabled()): ?>
-<fieldset class="form-list mollie-components"
-          id="payment_form_<?= $this->quoteEscape($code) ?>"
-          data-mollie-profile-id="<?= $this->quoteEscape($this->getProfileId()) ?>"
-          data-mollie-testmode="<?= $this->isTestMode() ? 'true' : 'false' ?>"
-          data-mollie-locale="<?= $this->quoteEscape($this->getMollieLocale()) ?>"
-          style="display:none;">
+<div class="form-list mollie-components"
+     id="payment_form_<?= $this->quoteEscape($code) ?>"
+     data-mollie-profile-id="<?= $this->quoteEscape($this->getProfileId()) ?>"
+     data-mollie-testmode="<?= $this->isTestMode() ? 'true' : 'false' ?>"
+     data-mollie-locale="<?= $this->quoteEscape($this->getMollieLocale()) ?>"
+     style="display:none;">
     <ul class="form-list">
         <li>
             <label for="mollie-card-holder" class="required"><?= $this->__('Cardholder name') ?></label>
-            <div id="mollie-card-holder" class="mollie-component input-text"></div>
-            <div id="mollie-card-holder-error" class="mollie-component-error validation-advice" role="alert"></div>
+            <div id="mollie-card-holder" class="mollie-component-wrap"></div>
+            <div id="mollie-card-holder-error" class="validation-advice mollie-error" role="alert"></div>
         </li>
         <li>
             <label for="mollie-card-number" class="required"><?= $this->__('Card number') ?></label>
-            <div id="mollie-card-number" class="mollie-component input-text"></div>
-            <div id="mollie-card-number-error" class="mollie-component-error validation-advice" role="alert"></div>
+            <div id="mollie-card-number" class="mollie-component-wrap"></div>
+            <div id="mollie-card-number-error" class="validation-advice mollie-error" role="alert"></div>
         </li>
         <li class="fields">
             <div class="field">
                 <label for="mollie-expiry-date" class="required"><?= $this->__('Expiry date') ?></label>
-                <div id="mollie-expiry-date" class="mollie-component input-text"></div>
-                <div id="mollie-expiry-date-error" class="mollie-component-error validation-advice" role="alert"></div>
+                <div id="mollie-expiry-date" class="mollie-component-wrap"></div>
+                <div id="mollie-expiry-date-error" class="validation-advice mollie-error" role="alert"></div>
             </div>
             <div class="field">
                 <label for="mollie-verification-code" class="required"><?= $this->__('CVC') ?></label>
-                <div id="mollie-verification-code" class="mollie-component input-text"></div>
-                <div id="mollie-verification-code-error" class="mollie-component-error validation-advice" role="alert"></div>
+                <div id="mollie-verification-code" class="mollie-component-wrap"></div>
+                <div id="mollie-verification-code-error" class="validation-advice mollie-error" role="alert"></div>
             </div>
         </li>
     </ul>
     <input type="hidden" name="payment[mollie_card_token]" id="mollie-card-token" value="">
-</fieldset>
+</div>
 <style>
-    .mollie-components .mollie-component {
+    .mollie-components .mollie-component-wrap .mollie-component {
         display: block;
         width: 100%;
         min-height: 2.4em;
-        padding: 0.4em 0.6em;
+        padding: 0.5em 0.75em;
         box-sizing: border-box;
-        background: #fff;
+        background: var(--maho-color-background, #fff);
+        border: 1px solid var(--maho-color-input-border, #ccc);
+        border-radius: 3px;
     }
-    .mollie-components .mollie-component-error:empty {
+    .mollie-components .mollie-component-wrap .mollie-component.has-focus {
+        border-color: var(--maho-color-input-focus, #888);
+    }
+    .mollie-components .mollie-component-wrap .mollie-component.is-invalid {
+        border-color: var(--maho-color-input-error, #c0392b);
+    }
+    .mollie-components .mollie-error:empty {
         display: none;
     }
 </style>

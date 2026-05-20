@@ -10,6 +10,33 @@
     const METHOD_CODE = 'mollie_creditcard';
     const MOLLIE_JS_URL = 'https://js.mollie.com/v1/mollie.js';
     const COMPONENT_TYPES = ['cardHolder', 'cardNumber', 'expiryDate', 'verificationCode'];
+    // `styles` controls the text rendering INSIDE each Mollie iframe (per
+    // https://docs.mollie.com/docs/styling-mollie-components). Mollie's iframe
+    // document cannot see our :root CSS variables, so we resolve them at
+    // runtime and pass concrete values. Falls back to hex defaults when a
+    // variable isn't defined.
+    function readVar(name, fallback) {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return value || fallback;
+    }
+    function buildStyles() {
+        return {
+            base: {
+                color: readVar('--maho-color-text-primary', '#1f1f1f'),
+                fontSize: '14px',
+                lineHeight: '1.4',
+                '::placeholder': {
+                    color: readVar('--maho-color-text-secondary', '#888888'),
+                },
+            },
+            valid: {
+                color: readVar('--maho-color-text-primary', '#1f1f1f'),
+            },
+            invalid: {
+                color: readVar('--maho-color-error', '#c0392b'),
+            },
+        };
+    }
 
     const state = {
         mollie: null,
@@ -50,7 +77,7 @@
     }
 
     function setError(componentName, message) {
-        // Mollie's component name (e.g. cardNumber) maps to our slug id (card-number).
+        // Mollie component name (e.g. cardNumber) → DOM slug (card-number).
         const slug = componentName.replace(/([A-Z])/g, '-$1').toLowerCase();
         const el = document.getElementById('mollie-' + slug + '-error');
         if (el) {
@@ -115,10 +142,18 @@
                 console.warn('[Mollie Components] mount target #mollie-' + slug + ' not found');
                 return;
             }
-            const component = state.mollie.createComponent(type);
+            const component = state.mollie.createComponent(type, {
+                styles: buildStyles(),
+            });
             component.mount('#mollie-' + slug);
             component.addEventListener('change', event => {
-                setError(type, event.error && !event.touched ? '' : (event.error || ''));
+                // Only show the message once the user has touched the field,
+                // otherwise we'd render "X cannot be empty" before any input.
+                if (event && event.error && event.touched) {
+                    setError(type, event.error);
+                } else {
+                    setError(type, '');
+                }
             });
             state.components[type] = component;
         });
@@ -158,18 +193,21 @@
         }
     }
 
-    function patchPaymentSave() {
-        if (typeof Payment === 'undefined' || Payment.prototype.__mollieComponentsSavePatched) {
+    // Patch Review.prototype.save so every Review instance — including the
+    // ones created by onestep's loadReview() AJAX flow, which reassigns the
+    // global `review` on every step — inherits our wrap via the prototype
+    // chain. Instance-level patching was racy: onestep recreates `review`
+    // mid-flow and orphans any direct instance wrap.
+    function patchReviewSavePrototype() {
+        if (typeof Review === 'undefined' || Review.prototype.__mollieSavePatched) {
             return;
         }
-        const originalSave = Payment.prototype.save;
-        Payment.prototype.save = async function () {
-            const usingComponents =
-                this.currentMethod === METHOD_CODE
-                && state.mounted;
-
-            console.info('[Mollie Components] Payment.save patch fired',
-                { currentMethod: this.currentMethod, mounted: state.mounted, usingComponents });
+        Review.prototype.__mollieSavePatched = true;
+        const originalSave = Review.prototype.save;
+        Review.prototype.save = async function () {
+            const methodInput = document.querySelector('input[name="payment[method]"]:checked');
+            const selectedMethod = methodInput ? methodInput.value : null;
+            const usingComponents = selectedMethod === METHOD_CODE && state.mounted;
 
             if (!usingComponents) {
                 return originalSave.apply(this, arguments);
@@ -177,15 +215,13 @@
 
             const input = document.getElementById('mollie-card-token');
             if (input && input.value !== '') {
-                console.info('[Mollie Components] cardToken already present, submitting');
                 return originalSave.apply(this, arguments);
             }
 
             try {
-                const token = await createTokenAndInject();
-                console.info('[Mollie Components] cardToken obtained:', token ? token.slice(0, 12) + '…' : '(empty)');
-            } catch (err) {
-                console.warn('[Mollie Components] createToken failed:', err);
+                await createTokenAndInject();
+            } catch {
+                // Validation error already surfaced via setError; abort submit.
                 if (typeof checkout !== 'undefined' && typeof checkout.setLoadWaiting === 'function') {
                     checkout.setLoadWaiting(false);
                 }
@@ -193,7 +229,6 @@
             }
             return originalSave.apply(this, arguments);
         };
-        Payment.prototype.__mollieComponentsSavePatched = true;
     }
 
     function patchPaymentSwitchMethod() {
@@ -217,7 +252,7 @@
     }
 
     function init() {
-        patchPaymentSave();
+        patchReviewSavePrototype();
         patchPaymentSwitchMethod();
 
         // If credit card is already the selected method at page load, mount immediately.

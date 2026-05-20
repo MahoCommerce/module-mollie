@@ -45,14 +45,6 @@ class Maho_Mollie_Model_Method_Creditcard extends Maho_Mollie_Model_Method_Stand
             $info->setAdditionalInformation('mollie_card_token', $token);
         }
 
-        Mage::log(
-            'Mollie Creditcard assignData: token=' . ($token !== '' ? substr($token, 0, 12) . '…' : '(empty)')
-            . ' data_keys=' . implode(',', is_array($data) ? array_keys($data) : ($data instanceof \Maho\DataObject ? array_keys($data->getData()) : []))
-            . ' info_class=' . ($info !== null ? get_class($info) : 'null'),
-            Mage::LOG_INFO,
-            'mollie.log',
-        );
-
         return $this;
     }
 
@@ -70,19 +62,10 @@ class Maho_Mollie_Model_Method_Creditcard extends Maho_Mollie_Model_Method_Stand
     {
         $payment = $order->getPayment();
         if (!$payment instanceof Mage_Sales_Model_Order_Payment) {
-            Mage::log('Mollie Creditcard getExtraPaymentPayload: order has no payment', Mage::LOG_INFO, 'mollie.log');
             return [];
         }
 
         $token = (string) $payment->getAdditionalInformation('mollie_card_token');
-        Mage::log(
-            'Mollie Creditcard getExtraPaymentPayload: order=' . $order->getIncrementId()
-            . ' token=' . ($token !== '' ? substr($token, 0, 12) . '…' : '(empty)')
-            . ' all_additional_info=' . json_encode($payment->getAdditionalInformation()),
-            Mage::LOG_INFO,
-            'mollie.log',
-        );
-
         if ($token === '') {
             return [];
         }

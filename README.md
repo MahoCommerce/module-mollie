@@ -8,7 +8,7 @@
 
 Accept payments through [Mollie](https://www.mollie.com), one of Europe's leading payment service providers — offering 40+ payment methods across the Payments API and the Orders API (for Klarna and other Buy Now Pay Later methods).
 
-> **Status: Beta — redirect flow verified against the Mollie sandbox.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, plus online refunds and admin-configurable order statuses. 28 method blocks are configurable in admin and all of them work end-to-end via redirect (the generic Mollie selector plus the per-method blocks listed below). Apple Pay's express-checkout button (cart/PDP) is not yet implemented, though Apple Pay via redirect works. Translations ship for Dutch, German, French, Italian, and Spanish.
+> **Status: Beta — redirect flow + Mollie Components verified against the Mollie sandbox.** Core payment flow (create → redirect → webhook → return → cron) is implemented against the Mollie Payments API, plus online refunds and admin-configurable order statuses. 28 method blocks are configurable in admin and all of them work end-to-end via redirect (the generic Mollie selector plus the per-method blocks listed below). For credit cards there's an opt-in PCI-SAQ-A flow via Mollie Components: the card-number / expiry / CVC / cardholder fields render inline in your checkout (cross-origin iframes hosted by Mollie), the customer stays on your site through to the success page, and the redirect-to-Mollie fallback still triggers if Components isn't configured or JS fails. Apple Pay's express-checkout button (cart/PDP) is not yet implemented, though Apple Pay via redirect works. Translations ship for Dutch, German, French, Italian, and Spanish.
 >
 > **Known gap:** the webhook re-fetches the payment from Mollie's API for verification, but there is no DB-level lock around the capture path; concurrent webhook redeliveries could race.
 
@@ -63,7 +63,7 @@ Working end-to-end via redirect (Mollie hosts the actual UI):
 - [x] Generic Mollie gateway (Mollie's full method picker)
 - [x] iDEAL
 - [x] Bancontact
-- [x] Credit card (redirect by default; Mollie Components hosted card fields available — toggle "Use Mollie Components" + Profile ID in admin)
+- [x] Credit card (redirect by default; PCI-SAQ-A inline checkout via Mollie Components — toggle "Use Mollie Components" + Profile ID in the admin section)
 - [x] PayPal
 - [x] Apple Pay (redirect only — express button on cart/PDP not yet)
 - [x] Bank Transfer
