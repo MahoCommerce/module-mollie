@@ -328,6 +328,17 @@
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_twint>
+            <mollie_blik>
+                <active>0</active>
+                <model>maho_mollie/method_blik</model>
+                <title>BLIK</title>
+                <group>mollie</group>
+                <allowspecific>0</allowspecific>
+                <sort_order>117</sort_order>
+                <fee_enabled>0</fee_enabled>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
+            </mollie_blik>
         </payment>
     </default>
 </config>
