@@ -1,0 +1,32 @@
+name: XML Syntax Check
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    syntax-xml:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install xmllint
+              run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+            - name: Check XML syntax
+              run: |
+                  errors=0
+                  while IFS= read -r file; do
+                      if ! output=$(xmllint --noout "$file" 2>&1); then
+                          echo "::error file=$file::$output"
+                          errors=$((errors + 1))
+                      fi
+                  done < <(find app -type f -name '*.xml')
+                  if [ $errors -gt 0 ]; then
+                      echo "$errors file(s) with XML syntax errors"
+                      exit 1
+                  fi
+                  echo "All XML files passed syntax check"
