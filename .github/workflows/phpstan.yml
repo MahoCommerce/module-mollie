@@ -19,7 +19,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: shivammathur/setup-php@v2
+            - uses: shivammathur/setup-php@2.37.1
               with:
                   php-version: ${{ matrix.php-version }}
 
