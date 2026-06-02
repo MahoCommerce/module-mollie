@@ -18,7 +18,7 @@ jobs:
         name: PHP Syntax (PHP ${{ matrix.php-version }})
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
 
             - uses: shivammathur/setup-php@v2
               with:
