@@ -14,7 +14,7 @@
             <groups>
                 <maho_mollie_credentials translate="label">
                     <label>Mollie - General Settings</label>
-                    <sort_order>300</sort_order>
+                    <sort_order>400</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
@@ -78,7 +78,7 @@
 
                 <mollie translate="label">
                     <label>Mollie - Gateway Payment</label>
-                    <sort_order>303</sort_order>
+                    <sort_order>410</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -161,7 +161,7 @@
 
                 <mollie_ideal translate="label">
                     <label>Mollie - iDEAL</label>
-                    <sort_order>304</sort_order>
+                    <sort_order>413</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -245,7 +245,7 @@
 
                 <mollie_bancontact translate="label">
                     <label>Mollie - Bancontact</label>
-                    <sort_order>305</sort_order>
+                    <sort_order>403</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -329,7 +329,7 @@
 
                 <mollie_creditcard translate="label">
                     <label>Mollie - Credit Card</label>
-                    <sort_order>306</sort_order>
+                    <sort_order>408</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -437,7 +437,7 @@
 
                 <mollie_paypal translate="label">
                     <label>Mollie - PayPal</label>
-                    <sort_order>307</sort_order>
+                    <sort_order>420</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -520,7 +520,7 @@
 
                 <mollie_applepay translate="label">
                     <label>Mollie - Apple Pay</label>
-                    <sort_order>311</sort_order>
+                    <sort_order>401</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -603,7 +603,7 @@
 
                 <mollie_banktransfer translate="label">
                     <label>Mollie - Bank Transfer</label>
-                    <sort_order>312</sort_order>
+                    <sort_order>404</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -686,7 +686,7 @@
 
                 <mollie_directdebit translate="label">
                     <label>Mollie - SEPA Direct Debit</label>
-                    <sort_order>313</sort_order>
+                    <sort_order>424</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -770,7 +770,7 @@
 
                 <mollie_giftcard translate="label">
                     <label>Mollie - Gift Card</label>
-                    <sort_order>314</sort_order>
+                    <sort_order>411</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -854,7 +854,7 @@
 
                 <mollie_googlepay translate="label">
                     <label>Mollie - Google Pay</label>
-                    <sort_order>317</sort_order>
+                    <sort_order>412</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -937,7 +937,7 @@
 
                 <mollie_trustly translate="label">
                     <label>Mollie - Trustly</label>
-                    <sort_order>318</sort_order>
+                    <sort_order>426</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1020,7 +1020,7 @@
 
                 <mollie_twint translate="label">
                     <label>Mollie - TWINT</label>
-                    <sort_order>319</sort_order>
+                    <sort_order>427</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1104,7 +1104,7 @@
 
                 <mollie_blik translate="label">
                     <label>Mollie - BLIK</label>
-                    <sort_order>320</sort_order>
+                    <sort_order>407</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1188,7 +1188,7 @@
 
                 <mollie_przelewy24 translate="label">
                     <label>Mollie - Przelewy24</label>
-                    <sort_order>321</sort_order>
+                    <sort_order>422</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1271,7 +1271,7 @@
 
                 <mollie_eps translate="label">
                     <label>Mollie - EPS</label>
-                    <sort_order>322</sort_order>
+                    <sort_order>409</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1355,7 +1355,7 @@
 
                 <mollie_belfius translate="label">
                     <label>Mollie - Belfius</label>
-                    <sort_order>323</sort_order>
+                    <sort_order>405</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1439,7 +1439,7 @@
 
                 <mollie_bizum translate="label">
                     <label>Mollie - Bizum</label>
-                    <sort_order>324</sort_order>
+                    <sort_order>406</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1523,7 +1523,7 @@
 
                 <mollie_mybank translate="label">
                     <label>Mollie - MyBank</label>
-                    <sort_order>325</sort_order>
+                    <sort_order>417</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1607,7 +1607,7 @@
 
                 <mollie_satispay translate="label">
                     <label>Mollie - Satispay</label>
-                    <sort_order>326</sort_order>
+                    <sort_order>423</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1691,7 +1691,7 @@
 
                 <mollie_bancomatpay translate="label">
                     <label>Mollie - BANCOMAT Pay</label>
-                    <sort_order>327</sort_order>
+                    <sort_order>402</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1775,7 +1775,7 @@
 
                 <mollie_multibanco translate="label">
                     <label>Mollie - Multibanco</label>
-                    <sort_order>328</sort_order>
+                    <sort_order>416</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1859,7 +1859,7 @@
 
                 <mollie_mbway translate="label">
                     <label>Mollie - MB WAY</label>
-                    <sort_order>329</sort_order>
+                    <sort_order>414</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1943,7 +1943,7 @@
 
                 <mollie_payconiq translate="label">
                     <label>Mollie - Payconiq</label>
-                    <sort_order>330</sort_order>
+                    <sort_order>419</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -2027,7 +2027,7 @@
 
                 <mollie_mobilepay translate="label">
                     <label>Mollie - MobilePay</label>
-                    <sort_order>331</sort_order>
+                    <sort_order>415</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -2110,7 +2110,7 @@
 
                 <mollie_swish translate="label">
                     <label>Mollie - Swish</label>
-                    <sort_order>332</sort_order>
+                    <sort_order>425</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -2194,7 +2194,7 @@
 
                 <mollie_vipps translate="label">
                     <label>Mollie - Vipps</label>
-                    <sort_order>333</sort_order>
+                    <sort_order>428</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -2278,7 +2278,7 @@
 
                 <mollie_paybybank translate="label">
                     <label>Mollie - Pay by Bank</label>
-                    <sort_order>334</sort_order>
+                    <sort_order>418</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -2362,7 +2362,7 @@
 
                 <mollie_paysafecard translate="label">
                     <label>Mollie - paysafecard</label>
-                    <sort_order>335</sort_order>
+                    <sort_order>421</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
