@@ -9,9 +9,26 @@ use Rector\DeadCode\Rector as DeadCode;
 use Rector\EarlyReturn\Rector as EarlyReturn;
 use Rector\TypeDeclaration\Rector as TypeDeclaration;
 
+// Shared by every repo that consumes the org baseline. Only standard Rector
+// rules, so it needs no extra dependency: maho's own .rector.php (with the
+// Maho\Rector\* rules and the Varien->Maho migration) stays in maho and is not
+// synced. Only the paths that exist in a given repo are scanned, so the one
+// config works for app-only modules and the infra tool's src/ alike.
 return RectorConfig::configure()
-    ->withPaths([__DIR__ . '/app'])
-    ->withPhpSets(php70: true)
+    ->withPaths(array_values(array_merge(
+        array_filter([
+            __DIR__ . '/app',
+            __DIR__ . '/lib',
+            __DIR__ . '/public',
+            __DIR__ . '/src',
+        ], 'is_dir'),
+        // Root-level entry points (e.g. the infra tool's sync.php / config.php).
+        // glob skips dotfiles, so this very config file isn't included.
+        glob(__DIR__ . '/*.php') ?: [],
+    )))
+    // No argument: Rector reads the target PHP version from composer.json
+    // (require.php's floor, else config.platform.php), kept at 8.3 by the sync.
+    ->withPhpSets()
     ->withRules([
         CodeQuality\BooleanNot\ReplaceMultipleBooleanNotRector::class,
         CodeQuality\Foreach_\UnusedForeachValueToArrayKeysRector::class,
@@ -25,13 +42,13 @@ return RectorConfig::configure()
         CodeQuality\Ternary\SimplifyTautologyTernaryRector::class,
         CodeQuality\Ternary\SwitchNegatedTernaryRector::class,
         CodingStyle\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector::class,
-        CodingStyle\FuncCall\ConsistentImplodeRector::class,
         DeadCode\ClassMethod\RemoveUselessParamTagRector::class,
         DeadCode\ClassMethod\RemoveUselessReturnTagRector::class,
         DeadCode\MethodCall\RemoveNullArgOnNullDefaultParamRector::class,
         DeadCode\Property\RemoveUselessVarTagRector::class,
         EarlyReturn\If_\ChangeNestedIfsToEarlyReturnRector::class,
         EarlyReturn\If_\RemoveAlwaysElseRector::class,
+        Rector\CodingStyle\Rector\FuncCall\ConsistentImplodeRector::class,
         Rector\Php71\Rector\List_\ListToArrayDestructRector::class,
         Rector\Php74\Rector\Assign\NullCoalescingOperatorRector::class,
         Rector\Php80\Rector\Class_\StringableForToStringRector::class,
@@ -44,6 +61,6 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(Rector\Php82\Rector\Param\AddSensitiveParameterAttributeRector::class, [
         'sensitive_parameters' => [
-            'apiKey', 'email', 'useremail', 'username', 'password',
+            'token', 'apiKey', 'email', 'useremail', 'username', 'password',
         ],
     ]);

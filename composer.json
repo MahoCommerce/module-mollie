@@ -19,6 +19,9 @@
     "config": {
         "allow-plugins": {
             "mahocommerce/maho-composer-plugin": true
+        },
+        "platform": {
+            "php": "8.3"
         }
     }
 }

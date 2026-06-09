@@ -1,4 +1,4 @@
-name: PHP CS Fixer
+name: Lint
 
 on:
     push:
@@ -7,18 +7,21 @@ on:
     workflow_dispatch:
 
 jobs:
-    php-cs-fixer:
+    lint:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
 
-            - uses: shivammathur/setup-php@v2
+            - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240  # 2.37.2
               with:
                   php-version: '8.3'
 
             - name: Install dependencies
               run: composer install --no-interaction --no-progress
 
-            - name: Run PHP CS Fixer
+            - name: PHP CS Fixer
               run: php vendor/bin/php-cs-fixer fix --diff --dry-run
+
+            - name: Rector
+              run: php vendor/bin/rector -c .rector.php --dry-run
