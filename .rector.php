@@ -48,15 +48,7 @@ return RectorConfig::configure()
         DeadCode\Property\RemoveUselessVarTagRector::class,
         EarlyReturn\If_\ChangeNestedIfsToEarlyReturnRector::class,
         EarlyReturn\If_\RemoveAlwaysElseRector::class,
-        Rector\CodingStyle\Rector\FuncCall\ConsistentImplodeRector::class,
-        Rector\Php71\Rector\List_\ListToArrayDestructRector::class,
-        Rector\Php74\Rector\Assign\NullCoalescingOperatorRector::class,
-        Rector\Php80\Rector\Class_\StringableForToStringRector::class,
-        Rector\Php80\Rector\ClassConstFetch\ClassOnThisVariableObjectRector::class,
-        Rector\Php80\Rector\FuncCall\ClassOnObjectRector::class,
-        Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector::class,
         Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector::class,
-        TypeDeclaration\ClassMethod\ReturnNeverTypeRector::class,
         TypeDeclaration\StmtsAwareInterface\SafeDeclareStrictTypesRector::class,
     ])
     ->withConfiguredRule(Rector\Php82\Rector\Param\AddSensitiveParameterAttributeRector::class, [
