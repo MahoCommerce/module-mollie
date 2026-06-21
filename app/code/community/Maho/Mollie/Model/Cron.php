@@ -16,6 +16,7 @@ class Maho_Mollie_Model_Cron
      * Runs every 5 minutes. Catches orders stuck in pending_payment (e.g. webhook
      * failed to arrive) and verifies them against the Mollie API.
      */
+    #[\Maho\Config\CronJob('maho_mollie_check_pending_payments', schedule: '*/5 * * * *')]
     public function checkPendingPayments(): void
     {
         /** @var Maho_Mollie_Helper_Data $helper */

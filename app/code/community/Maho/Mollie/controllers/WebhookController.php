@@ -16,6 +16,8 @@ class Maho_Mollie_WebhookController extends Mage_Core_Controller_Front_Action
      * Mollie sends a single POST with an 'id' parameter (the Mollie Payment ID) whenever
      * a payment's status changes. We re-fetch the Payment via the API and reconcile.
      */
+    #[\Maho\Config\Route('/mollie/webhook', name: 'mollie.webhook')]
+    #[\Maho\Config\Route('/mollie/webhook/index', name: 'mollie.webhook.index')]
     public function indexAction(): void
     {
         if (!$this->getRequest()->isPost()) {

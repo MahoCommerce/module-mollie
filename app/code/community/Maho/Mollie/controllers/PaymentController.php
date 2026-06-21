@@ -13,6 +13,7 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
     /**
      * Create the Mollie Payment and redirect the customer to the Mollie checkout.
      */
+    #[\Maho\Config\Route('/mollie/payment/redirect', name: 'mollie.payment.redirect')]
     public function redirectAction(): void
     {
         $session = Mage::getSingleton('checkout/session');
@@ -62,6 +63,7 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
      * Here we just move the customer to the correct confirmation/cart page based on
      * whatever status the Payment currently has.
      */
+    #[\Maho\Config\Route('/mollie/payment/return', name: 'mollie.payment.return')]
     public function returnAction(): void
     {
         $session = Mage::getSingleton('checkout/session');

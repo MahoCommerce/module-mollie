@@ -16,7 +16,7 @@ Accept payments through [Mollie](https://www.mollie.com), one of Europe's leadin
 ## Requirements
 
 - PHP >= 8.3
-- Maho Commerce
+- Maho Commerce >= 26.5
 - A [Mollie](https://www.mollie.com) merchant account
 
 ## Installation
