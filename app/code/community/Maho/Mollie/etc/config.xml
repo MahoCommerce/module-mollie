@@ -36,19 +36,6 @@ SPDX-License-Identifier: OSL-3.0
         </payment>
     </global>
 
-    <crontab>
-        <jobs>
-            <maho_mollie_check_pending_payments>
-                <schedule>
-                    <cron_expr>*/5 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>maho_mollie/cron::checkPendingPayments</model>
-                </run>
-            </maho_mollie_check_pending_payments>
-        </jobs>
-    </crontab>
-
     <admin>
         <routers>
             <adminhtml>
@@ -62,15 +49,6 @@ SPDX-License-Identifier: OSL-3.0
     </admin>
 
     <frontend>
-        <routers>
-            <mollie>
-                <use>standard</use>
-                <args>
-                    <module>Maho_Mollie</module>
-                    <frontName>mollie</frontName>
-                </args>
-            </mollie>
-        </routers>
         <secure_url>
             <maho_mollie_payment>/mollie/payment</maho_mollie_payment>
             <maho_mollie_webhook>/mollie/webhook</maho_mollie_webhook>

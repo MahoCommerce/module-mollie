@@ -23,6 +23,7 @@ class Maho_Mollie_Adminhtml_Mollie_CredentialsController extends Mage_Adminhtml_
      * Ping the Mollie API using the submitted (or currently stored) credentials
      * and respond with JSON indicating success or failure.
      */
+    #[\Maho\Config\Route('/mollie/adminhtml_mollie_credentials/test', name: 'mollie.adminhtml_mollie_credentials.test')]
     public function testAction(): void
     {
         /** @var Maho_Mollie_Helper_Data $helper */
