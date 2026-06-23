@@ -106,10 +106,19 @@ class Maho_Mollie_Model_Cron
                 }
 
                 $orderPayment->setTransactionId((string) $molliePayment->id);
-                $orderPayment->setCurrencyCode((string) $molliePayment->amount->currency);
                 $orderPayment->setIsTransactionClosed(true);
-                // Second arg true => auto-create an invoice on capture.
-                $orderPayment->registerCaptureNotification($amount, true);
+
+                // registerCaptureNotification() expects a base-currency amount: it
+                // compares against getBaseGrandTotal() in _isCaptureFinal() and stores
+                // it as base_amount_paid_online. When base currency != order currency
+                // (e.g. base EUR, store currency CHF for TWINT) the order-currency
+                // amount never matches, so the invoice is skipped and the order is
+                // wrongly flagged as fraud. Mollie always settles the full order, so
+                // register the full base total. For the same reason we must not override
+                // the payment currency code with Mollie's order currency, which would
+                // make _isSameCurrency() false and trip the fraud flag too.
+                // A final capture auto-creates the invoice via prepareInvoice().
+                $orderPayment->registerCaptureNotification((float) $order->getBaseGrandTotal());
                 $order->save();
 
                 // registerCaptureNotification puts the order in STATE_PROCESSING with
