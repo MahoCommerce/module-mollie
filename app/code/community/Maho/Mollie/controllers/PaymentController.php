@@ -109,12 +109,29 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        // Paid/pending/authorized/open all go to the success page — the webhook finalizes state.
+        // Paid/pending/authorized/open all go to the success page.
         if ($molliePayment->isPaid()
             || $molliePayment->isAuthorized()
             || $molliePayment->isPending()
             || $molliePayment->isOpen()
         ) {
+            // Mollie's webhook is the source of truth, but it is frequently
+            // unreachable in sandbox/local-dev setups, which would leave a paid
+            // order stuck in pending_payment until the cron eventually catches
+            // it. Finalize synchronously here too; reconcile() is idempotent, so
+            // a later webhook/cron pass is a no-op.
+            if ($molliePayment->isPaid() || $molliePayment->isAuthorized()) {
+                try {
+                    /** @var Maho_Mollie_Model_Cron $reconciler */
+                    $reconciler = Mage::getModel('maho_mollie/cron');
+                    $reconciler->reconcile($order, $molliePayment, 'return');
+                } catch (\Throwable $e) {
+                    // Don't block the success page on reconciliation issues —
+                    // the webhook/cron will retry.
+                    Mage::logException($e);
+                }
+            }
+
             $quote = $session->getQuote();
             if ($quote->getId()) {
                 $quote->setIsActive(0)->save();

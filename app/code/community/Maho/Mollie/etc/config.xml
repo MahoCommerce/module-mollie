@@ -88,6 +88,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>100</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie>
@@ -98,6 +99,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>101</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_ideal>
@@ -108,6 +110,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>102</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_bancontact>
@@ -118,6 +121,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>103</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
                 <use_components>0</use_components>
@@ -130,6 +134,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>104</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paypal>
@@ -140,6 +145,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>108</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_applepay>
@@ -150,6 +156,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>109</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_banktransfer>
@@ -160,6 +167,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>110</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_directdebit>
@@ -170,6 +178,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>111</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_giftcard>
@@ -180,6 +189,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>114</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_googlepay>
@@ -190,6 +200,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>115</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_trustly>
@@ -200,6 +211,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>116</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_twint>
@@ -210,6 +222,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>117</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_blik>
@@ -220,6 +233,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>118</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_przelewy24>
@@ -230,6 +244,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>119</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_eps>
@@ -240,6 +255,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>120</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_belfius>
@@ -250,6 +266,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>121</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_bizum>
@@ -260,6 +277,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>122</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_mybank>
@@ -270,6 +288,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>123</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_satispay>
@@ -280,6 +299,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>124</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_bancomatpay>
@@ -290,6 +310,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>125</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_multibanco>
@@ -300,6 +321,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>126</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_mbway>
@@ -310,6 +332,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>127</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_payconiq>
@@ -320,6 +343,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>128</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_mobilepay>
@@ -330,6 +354,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>129</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_swish>
@@ -340,6 +365,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>130</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_vipps>
@@ -350,6 +376,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>131</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paybybank>
@@ -360,6 +387,7 @@ SPDX-License-Identifier: OSL-3.0
                 <group>mollie</group>
                 <allowspecific>0</allowspecific>
                 <sort_order>132</sort_order>
+                <payment_action>order</payment_action>
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paysafecard>
