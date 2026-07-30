@@ -318,6 +318,22 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
     }
 
     /**
+     * Whether the order confirmation email goes out as soon as the order is placed,
+     * instead of waiting for Mollie to confirm the payment.
+     *
+     * Default false: for instant methods (cards, iDEAL, TWINT, ...) the payment
+     * resolves within seconds, so mailing on confirmation avoids sending
+     * confirmations for checkouts the customer abandoned on the Mollie page.
+     *
+     * Methods that settle days later override this to true — the customer needs
+     * the confirmation up front in order to pay at all.
+     */
+    public function shouldSendOrderEmailOnPlacement(): bool
+    {
+        return false;
+    }
+
+    /**
      * Per-method subclasses override this to pin the Mollie API "method" code
      * (e.g. 'ideal', 'bancontact'). Returning null keeps the generic gateway
      * behaviour where Mollie shows its full selector.

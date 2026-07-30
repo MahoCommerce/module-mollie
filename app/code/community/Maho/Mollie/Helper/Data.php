@@ -123,6 +123,56 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Send the new-order confirmation email, at most once per order.
+     *
+     * Maho deliberately skips this email at checkout for redirect-based gateways:
+     * Mage_Checkout_Model_Type_Onepage::saveOrder() only calls queueNewOrderEmail()
+     * when the payment method returns an empty getOrderPlaceRedirectUrl(). Every
+     * Mollie method redirects, so without this the customer never receives an order
+     * confirmation. Same approach as Mage_Paypal_Model_Ipn.
+     *
+     * Called from two places: at order placement for methods that settle later
+     * (see Method_Standard::shouldSendOrderEmailOnPlacement) and from
+     * Model_Cron::reconcile() once Mollie confirms the payment. The email_sent
+     * flag — plus the core email queue's own duplicate check — makes sure webhook
+     * redeliveries, the return URL and the cron fallback can't mail twice.
+     *
+     * Never throws: a mail failure must not abort payment creation or the
+     * reconciliation of an already-captured payment.
+     *
+     * @param string $source Short context label for the log ('placement', 'webhook', 'cron', ...)
+     */
+    public function sendOrderConfirmationEmail(Mage_Sales_Model_Order $order, string $source): void
+    {
+        if ($order->getEmailSent()) {
+            return;
+        }
+
+        $incrementId = (string) $order->getIncrementId();
+
+        try {
+            $order->queueNewOrderEmail();
+        } catch (\Throwable $e) {
+            Mage::logException($e);
+            Mage::log(
+                "Mollie {$source}: failed to send order confirmation email for order #{$incrementId}: "
+                . $e->getMessage(),
+                Mage::LOG_ERROR,
+                'mollie.log',
+            );
+            return;
+        }
+
+        if ($this->isDebugEnabled((int) $order->getStoreId())) {
+            Mage::log(
+                "Mollie {$source}: order confirmation email queued for order #{$incrementId}",
+                Mage::LOG_INFO,
+                'mollie.log',
+            );
+        }
+    }
+
+    /**
      * Return all payment method codes whose model is provided by this module.
      *
      * Used to scope webhook / cron order lookups to Mollie-paid orders without

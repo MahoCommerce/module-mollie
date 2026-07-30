@@ -41,6 +41,15 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
             $method = $payment->getMethodInstance();
             $result = $method->createPayment($order);
 
+            // Methods that settle days later (bank transfer) mail the customer now:
+            // they need the order details in hand to complete the payment. Instant
+            // methods wait for capture instead, in Model_Cron::reconcile().
+            if ($method->shouldSendOrderEmailOnPlacement()) {
+                /** @var Maho_Mollie_Helper_Data $helper */
+                $helper = Mage::helper('maho_mollie');
+                $helper->sendOrderConfirmationEmail($order, 'placement');
+            }
+
             $session->setMollieQuoteId($session->getQuoteId());
             $session->unsQuoteId();
 

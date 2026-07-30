@@ -146,6 +146,9 @@ class Maho_Mollie_Model_Cron
                 }
             }
 
+            // No-op for methods that already mailed the customer at placement.
+            $helper->sendOrderConfirmationEmail($order, $source);
+
             // A paid/authorized payment can still have refunds or chargebacks
             // arrive asynchronously — fall through to those checks below.
             if ($molliePayment->hasRefunds()) {

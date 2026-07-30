@@ -19,4 +19,15 @@ class Maho_Mollie_Model_Method_Multibanco extends Maho_Mollie_Model_Method_Stand
     {
         return 'multibanco';
     }
+
+    /**
+     * Multibanco hands the customer an entity/reference to pay later via ATM or
+     * homebanking, so settlement lands days after checkout. Same reasoning as bank
+     * transfer: the confirmation has to reach the customer before they can pay.
+     */
+    #[\Override]
+    public function shouldSendOrderEmailOnPlacement(): bool
+    {
+        return true;
+    }
 }
