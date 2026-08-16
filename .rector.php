@@ -60,19 +60,12 @@ return RectorConfig::configure()
         CodeQuality\LogicalAnd\LogicalToBooleanRector::class,
         CodeQuality\NotEqual\CommonNotEqualRector::class,
         CodeQuality\Ternary\SimplifyTautologyTernaryRector::class,
-        CodeQuality\Ternary\SwitchNegatedTernaryRector::class,
         CodingStyle\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector::class,
         DeadCode\ClassMethod\RemoveUselessParamTagRector::class,
         DeadCode\ClassMethod\RemoveUselessReturnTagRector::class,
         DeadCode\MethodCall\RemoveNullArgOnNullDefaultParamRector::class,
         DeadCode\Property\RemoveUselessVarTagRector::class,
-        EarlyReturn\If_\ChangeNestedIfsToEarlyReturnRector::class,
         EarlyReturn\If_\RemoveAlwaysElseRector::class,
         Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector::class,
         TypeDeclaration\StmtsAwareInterface\SafeDeclareStrictTypesRector::class,
-    ])
-    ->withConfiguredRule(Rector\Php82\Rector\Param\AddSensitiveParameterAttributeRector::class, [
-        'sensitive_parameters' => [
-            'token', 'apiKey', 'email', 'useremail', 'username', 'password',
-        ],
     ]);
