@@ -16,18 +16,21 @@ use Rector\TypeDeclaration\Rector as TypeDeclaration;
 // config works for app-only modules and the infra tool's src/ alike.
 //
 // Existence alone is not enough: in a module repo `composer install` lets the
-// maho composer plugin generate public/ and lib/ from maho core, and those are
-// git-ignored. Rector must not lint core files a module cannot change, so a
-// directory is only scanned when git does not ignore it.
-function isGitIgnored(string $path): bool
+// maho composer plugin materialize maho core files under public/ and lib/.
+// Those files are never tracked by the module. Some modules git-ignore them,
+// some ignore the whole directory, and some leave them untracked next to their
+// own tracked skin or js files. Rector must not lint core files a module cannot
+// change, so every path git does not track is skipped. Without
+// --exclude-standard, ls-files lists ignored files as well as plain untracked
+// ones, and --directory collapses a fully untracked directory to one entry.
+function gitUntrackedPaths(): array
 {
     exec(
-        'git -C ' . escapeshellarg(__DIR__) . ' check-ignore -q ' . escapeshellarg($path) . ' 2>/dev/null',
-        $output,
-        $exitCode,
+        'git -C ' . escapeshellarg(__DIR__) . ' ls-files --others --directory 2>/dev/null',
+        $paths,
     );
 
-    return $exitCode === 0;
+    return array_map(static fn(string $path): string => __DIR__ . '/' . rtrim($path, '/'), $paths);
 }
 
 return RectorConfig::configure()
@@ -37,7 +40,7 @@ return RectorConfig::configure()
             __DIR__ . '/lib',
             __DIR__ . '/public',
             __DIR__ . '/src',
-        ], static fn(string $dir): bool => is_dir($dir) && !isGitIgnored($dir)),
+        ], 'is_dir'),
         // Root-level entry points (e.g. the infra tool's sync.php / config.php).
         // glob skips dotfiles, so this very config file isn't included.
         glob(__DIR__ . '/*.php') ?: [],
@@ -62,6 +65,7 @@ return RectorConfig::configure()
     //
     // Everything else in the sets is a safe rewrite, so keep the derivation.
     ->withSkip([
+        ...gitUntrackedPaths(),
         Rector\Php81\Rector\Property\ReadOnlyPropertyRector::class,
         Rector\Php82\Rector\Class_\ReadOnlyClassRector::class,
         Rector\Php83\Rector\ClassConst\AddTypeToConstRector::class,
