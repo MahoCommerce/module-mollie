@@ -65,3 +65,4 @@
 "When enabled, writes verbose reconcile/refund events to var/log/mollie.log.","When enabled, writes verbose reconcile/refund events to var/log/mollie.log."
 "When Yes, render Mollie's PCI-compliant iframe card fields in checkout instead of redirecting to Mollie. Requires the Profile ID below.","When Yes, render Mollie's PCI-compliant iframe card fields in checkout instead of redirecting to Mollie. Requires the Profile ID below."
 "Your payment was not completed. Please try again.","Your payment was not completed. Please try again."
+"Your payment was cancelled. Your cart has been restored.","Your payment was cancelled. Your cart has been restored."

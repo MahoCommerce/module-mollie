@@ -57,3 +57,4 @@
 "We could not verify your Mollie payment. Please try again.","Wir konnten Ihre Mollie-Zahlung nicht verifizieren. Bitte versuchen Sie es erneut."
 "When enabled, writes verbose reconcile/refund events to var/log/mollie.log.","Wenn aktiviert, werden ausführliche Abgleichs-/Erstattungsereignisse in var/log/mollie.log geschrieben."
 "Your payment was not completed. Please try again.","Ihre Zahlung wurde nicht abgeschlossen. Bitte versuchen Sie es erneut."
+"Your payment was cancelled. Your cart has been restored.","Ihre Zahlung wurde abgebrochen. Ihr Warenkorb wurde wiederhergestellt."

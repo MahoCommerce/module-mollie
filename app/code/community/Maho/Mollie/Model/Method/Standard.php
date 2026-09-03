@@ -114,6 +114,7 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
                 ],
                 'description' => 'Order #' . $order->getIncrementId(),
                 'redirectUrl' => $helper->getReturnUrl($storeId),
+                'cancelUrl'   => $helper->getCancelUrl($storeId),
                 'webhookUrl'  => $helper->getWebhookUrl($storeId),
                 'metadata'    => [
                     'order_id' => $order->getIncrementId(),

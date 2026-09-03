@@ -57,3 +57,4 @@
 "We could not verify your Mollie payment. Please try again.","We konden uw Mollie-betaling niet verifiëren. Probeer het opnieuw."
 "When enabled, writes verbose reconcile/refund events to var/log/mollie.log.","Indien ingeschakeld, worden uitgebreide reconciliatie-/terugbetalingsgebeurtenissen naar var/log/mollie.log geschreven."
 "Your payment was not completed. Please try again.","Uw betaling is niet voltooid. Probeer het opnieuw."
+"Your payment was cancelled. Your cart has been restored.","Uw betaling is geannuleerd. Uw winkelwagen is hersteld."

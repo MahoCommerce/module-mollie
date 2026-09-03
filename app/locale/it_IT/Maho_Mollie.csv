@@ -57,3 +57,4 @@
 "We could not verify your Mollie payment. Please try again.","Non è stato possibile verificare il tuo pagamento Mollie. Riprova."
 "When enabled, writes verbose reconcile/refund events to var/log/mollie.log.","Se abilitato, scrive eventi dettagliati di riconciliazione/rimborso in var/log/mollie.log."
 "Your payment was not completed. Please try again.","Il tuo pagamento non è stato completato. Riprova."
+"Your payment was cancelled. Your cart has been restored.","Il tuo pagamento è stato annullato. Il tuo carrello è stato ripristinato."

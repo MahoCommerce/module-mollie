@@ -74,6 +74,17 @@ class Maho_Mollie_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getUrl('mollie/payment/return', ['_secure' => true, '_store' => $storeId]);
     }
 
+    /**
+     * Mollie sends the customer here when they abort the payment on the hosted
+     * checkout page ("Cancel payment" / "Go back to shop"). In live mode the
+     * payment is often still `open`/`pending` at that moment, so the return URL
+     * cannot tell an abort apart from a still-processing payment.
+     */
+    public function getCancelUrl(?int $storeId = null): string
+    {
+        return Mage::getUrl('mollie/payment/cancel', ['_secure' => true, '_store' => $storeId]);
+    }
+
     public function getWebhookUrl(?int $storeId = null): string
     {
         return Mage::getUrl('mollie/webhook', ['_secure' => true, '_store' => $storeId]);

@@ -57,3 +57,4 @@
 "We could not verify your Mollie payment. Please try again.","Nous n'avons pas pu vérifier votre paiement Mollie. Veuillez réessayer."
 "When enabled, writes verbose reconcile/refund events to var/log/mollie.log.","Lorsqu'activé, écrit des événements détaillés de réconciliation/remboursement dans var/log/mollie.log."
 "Your payment was not completed. Please try again.","Votre paiement n'a pas été finalisé. Veuillez réessayer."
+"Your payment was cancelled. Your cart has been restored.","Votre paiement a été annulé. Votre panier a été restauré."
