@@ -14,6 +14,22 @@ use Rector\TypeDeclaration\Rector as TypeDeclaration;
 // Maho\Rector\* rules and the Varien->Maho migration) stays in maho and is not
 // synced. Only the paths that exist in a given repo are scanned, so the one
 // config works for app-only modules and the infra tool's src/ alike.
+//
+// Existence alone is not enough: in a module repo `composer install` lets the
+// maho composer plugin generate public/ and lib/ from maho core, and those are
+// git-ignored. Rector must not lint core files a module cannot change, so a
+// directory is only scanned when git does not ignore it.
+function isGitIgnored(string $path): bool
+{
+    exec(
+        'git -C ' . escapeshellarg(__DIR__) . ' check-ignore -q ' . escapeshellarg($path) . ' 2>/dev/null',
+        $output,
+        $exitCode,
+    );
+
+    return $exitCode === 0;
+}
+
 return RectorConfig::configure()
     ->withPaths(array_values(array_merge(
         array_filter([
@@ -21,7 +37,7 @@ return RectorConfig::configure()
             __DIR__ . '/lib',
             __DIR__ . '/public',
             __DIR__ . '/src',
-        ], 'is_dir'),
+        ], static fn(string $dir): bool => is_dir($dir) && !isGitIgnored($dir)),
         // Root-level entry points (e.g. the infra tool's sync.php / config.php).
         // glob skips dotfiles, so this very config file isn't included.
         glob(__DIR__ . '/*.php') ?: [],
