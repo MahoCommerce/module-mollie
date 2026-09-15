@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Belfius extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_belfius';
 
+    #[\Override]
     protected ?string $_requiredCurrency = 'EUR';
 
     #[\Override]

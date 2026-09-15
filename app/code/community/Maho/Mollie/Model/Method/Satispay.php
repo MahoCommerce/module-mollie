@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Satispay extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_satispay';
 
+    #[\Override]
     protected ?string $_requiredCurrency = 'EUR';
 
     #[\Override]

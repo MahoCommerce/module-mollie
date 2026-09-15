@@ -17,5 +17,6 @@ declare(strict_types=1);
 class Maho_Mollie_Model_System_Config_Source_Order_Status_Pending extends Mage_Adminhtml_Model_System_Config_Source_Order_Status
 {
     /** @var mixed */
+    #[\Override]
     protected $_stateStatuses = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
 }
