@@ -34,7 +34,8 @@ return $config
                 __DIR__ . '/src',
             ], 'is_dir')))
             // Root-level entry points (e.g. the infra tool's sync.php / config.php).
-            // glob skips dotfiles, so these very config files aren't included.
+            // glob skips dotfiles, so .php-cs-fixer.php is left out; rector.php is
+            // a plain name now, so it is formatted like any other file.
             ->append(glob(__DIR__ . '/*.php') ?: [])
             ->name('*.php')
             ->ignoreDotFiles(true)
