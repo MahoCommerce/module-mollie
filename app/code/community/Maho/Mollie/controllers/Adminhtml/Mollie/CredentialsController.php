@@ -12,13 +12,6 @@ class Maho_Mollie_Adminhtml_Mollie_CredentialsController extends Mage_Adminhtml_
 {
     public const ADMIN_RESOURCE = 'system/config/maho_mollie';
 
-    #[\Override]
-    public function preDispatch()
-    {
-        $this->_setForcedFormKeyActions('test');
-        return parent::preDispatch();
-    }
-
     /**
      * Ping the Mollie API using the submitted (or currently stored) credentials
      * and respond with JSON indicating success or failure.
