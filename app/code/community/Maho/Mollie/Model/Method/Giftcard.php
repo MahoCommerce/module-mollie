@@ -11,8 +11,10 @@ declare(strict_types=1);
 // TODO: giftcard refunds are handled server-side by Mollie — revisit when Orders API lands.
 class Maho_Mollie_Model_Method_Giftcard extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_giftcard';
 
+    #[\Override]
     protected ?string $_requiredCurrency = 'EUR';
 
     #[\Override]

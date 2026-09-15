@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Mobilepay extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_mobilepay';
 
     #[\Override]
