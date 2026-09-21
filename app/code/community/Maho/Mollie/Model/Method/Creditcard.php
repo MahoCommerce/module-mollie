@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Creditcard extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_creditcard';
 
+    #[\Override]
     protected $_formBlockType = 'maho_mollie/form_creditcard';
 
     #[\Override]

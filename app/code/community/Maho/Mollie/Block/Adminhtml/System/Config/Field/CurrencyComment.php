@@ -48,7 +48,7 @@ class Maho_Mollie_Block_Adminhtml_System_Config_Field_CurrencyComment extends Ma
         if (!$method instanceof Maho_Mollie_Model_Method_Standard) {
             return null;
         }
-        $value = (new \ReflectionProperty($method, '_requiredCurrency'))->getValue($method);
+        $value = new \ReflectionProperty($method, '_requiredCurrency')->getValue($method);
         return is_string($value) && $value !== '' ? $value : null;
     }
 }

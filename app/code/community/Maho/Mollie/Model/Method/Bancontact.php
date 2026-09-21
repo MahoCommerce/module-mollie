@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Bancontact extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_bancontact';
 
+    #[\Override]
     protected ?string $_requiredCurrency = 'EUR';
 
     #[\Override]

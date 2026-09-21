@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Googlepay extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_googlepay';
 
     #[\Override]

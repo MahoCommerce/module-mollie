@@ -10,8 +10,10 @@ declare(strict_types=1);
 
 class Maho_Mollie_Model_Method_Swish extends Maho_Mollie_Model_Method_Standard
 {
+    #[\Override]
     protected $_code = 'mollie_swish';
 
+    #[\Override]
     protected ?string $_requiredCurrency = 'SEK';
 
     #[\Override]
