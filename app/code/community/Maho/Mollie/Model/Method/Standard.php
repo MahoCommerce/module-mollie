@@ -82,7 +82,7 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
                 }
             }
         } catch (\Throwable) {
-            $storeId = null;
+            // Keep the null store ID
         }
 
         $statusCode = $this->_getMollieHelper()->getPendingStatus($storeId, $this->getCode());
@@ -262,7 +262,7 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
                         ));
                     }
                 } catch (\Throwable) {
-                    $refundIds = [];
+                    // Keep the empty list
                 }
             } elseif (is_array($stored)) {
                 $refundIds = array_values(array_filter(
