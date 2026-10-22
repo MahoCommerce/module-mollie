@@ -391,6 +391,18 @@ SPDX-License-Identifier: OSL-3.0
                 <order_status_pending>pending_payment</order_status_pending>
                 <order_status_processing>processing</order_status_processing>
             </mollie_paysafecard>
+            <mollie_wero>
+                <active>0</active>
+                <model>maho_mollie/method_wero</model>
+                <title>Wero</title>
+                <group>mollie</group>
+                <allowspecific>1</allowspecific>
+                <specificcountry>BE,DE</specificcountry>
+                <sort_order>133</sort_order>
+                <payment_action>order</payment_action>
+                <order_status_pending>pending_payment</order_status_pending>
+                <order_status_processing>processing</order_status_processing>
+            </mollie_wero>
         </payment>
     </default>
 </config>
