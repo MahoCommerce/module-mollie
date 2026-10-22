@@ -2,7 +2,7 @@
 
 ![Maho Commerce](https://img.shields.io/badge/Maho_Commerce-module-orange)
 ![License](https://img.shields.io/badge/license-OSL--3.0-blue)
-![PHP](https://img.shields.io/badge/php-%3E%3D8.3-8892BF)
+![PHP](https://img.shields.io/badge/php-%3E%3D8.5-8892BF)
 ![PHPStan Level](https://img.shields.io/badge/PHPStan-level%208-brightgreen)
 
 **Mollie** payment gateway integration for [Maho Commerce](https://mahocommerce.com).
@@ -15,8 +15,8 @@ Accept payments through [Mollie](https://www.mollie.com), one of Europe's leadin
 
 ## Requirements
 
-- PHP >= 8.3
-- Maho Commerce >= 26.5
+- PHP >= 8.5
+- Maho Commerce >= 26.9
 - A [Mollie](https://www.mollie.com) merchant account
 
 ## Installation
