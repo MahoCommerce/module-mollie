@@ -61,6 +61,7 @@ class Maho_Mollie_Model_Method_Standard extends Mage_Payment_Model_Method_Abstra
         return parent::isAvailable($quote);
     }
 
+    #[\Override]
     public function getOrderPlaceRedirectUrl(): string
     {
         return Mage::getUrl('mollie/payment/redirect', ['_secure' => true]);

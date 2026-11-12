@@ -143,7 +143,7 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
 
             $quote = $session->getQuote();
             if ($quote->getId()) {
-                $quote->setIsActive(0)->save();
+                $quote->setIsActive(false)->save();
             }
             $this->_redirect('checkout/onepage/success', ['_secure' => true]);
             return;
@@ -218,7 +218,7 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
             // Order already cancelled (e.g. by the webhook) — just re-activate the quote.
             $quote = Mage::getModel('sales/quote')->load($order->getQuoteId());
             if ($quote->getId()) {
-                $quote->setIsActive(1)->setReservedOrderId('')->save();
+                $quote->setIsActive(true)->setReservedOrderId('')->save();
                 $session->replaceQuote($quote);
             }
         }
@@ -234,7 +234,7 @@ class Maho_Mollie_PaymentController extends Mage_Core_Controller_Front_Action
         $order->cancel()->save();
         $quote = Mage::getModel('sales/quote')->load($order->getQuoteId());
         if ($quote->getId()) {
-            $quote->setIsActive(1)->setReservedOrderId('')->save();
+            $quote->setIsActive(true)->setReservedOrderId('')->save();
             Mage::getSingleton('checkout/session')->replaceQuote($quote);
         }
     }
