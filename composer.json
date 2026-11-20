@@ -21,7 +21,8 @@
     },
     "config": {
         "allow-plugins": {
-            "mahocommerce/maho-composer-plugin": true
+            "mahocommerce/maho-composer-plugin": true,
+            "php-http/discovery": false
         },
         "platform": {
             "php": "8.5.1"
