@@ -17,12 +17,15 @@
         "phpstan/phpstan": "*",
         "phpstan/phpstan-deprecation-rules": "*",
         "phpstan/phpstan-strict-rules": "*",
-        "rector/rector": "*"
+        "rector/rector": "*",
+        "pestphp/pest": "^5",
+        "pestphp/pest-plugin-browser": "^5"
     },
     "config": {
         "allow-plugins": {
             "mahocommerce/maho-composer-plugin": true,
-            "php-http/discovery": false
+            "php-http/discovery": false,
+            "pestphp/pest-plugin": true
         },
         "platform": {
             "php": "8.5.1"
